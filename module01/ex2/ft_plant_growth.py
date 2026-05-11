@@ -29,11 +29,14 @@ class Plant:
 
 
 if __name__ == "__main__":
-    rose = Plant("rose", 24.2, 29)
     print("=== Garden Plant Growth ===")
+    rose = Plant("rose", 24.2, 29)
+    rose.age_()
+    rose.grow()
+    rose.show()
     for day in range(1, 8):
         print(f"=== Day {day} ===")
         rose.grow()
         rose.age_()
         rose.show()
-    print("Growth this week: 6cm")
+    print("Growth this week: 5.6cm")

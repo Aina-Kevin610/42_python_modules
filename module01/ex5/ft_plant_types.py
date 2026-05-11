@@ -18,7 +18,7 @@ class Plant:
         self._height = height
 
     def show(self) -> str:
-        return (f"{self._name.capitalize()}: "
+        print (f"{self._name.capitalize()}: "
                 f"{round(self._height, 1)}cm, {self._age} days old")
 
     def grow(self) -> None:
@@ -35,10 +35,12 @@ class Flower(Plant):
         self._color = color
         self._blooming = blooming
 
-    def show_flower(self) -> None:
-        base = super().show()
-        print(f"{base}\n Color: {self._color}")
-
+    def show(self) -> None:
+        print (f"{self._name.capitalize()}: "
+                f"{round(self._height, 1)}cm, "
+                f"{self._age} days old \n"
+                f"Color: {self._color}") 
+    
     def bloom(self) -> None:
         if self._blooming:
             print(f"{self._name} is blooming beautiffully!")
@@ -52,9 +54,11 @@ class Tree(Plant):
         super().__init__(name, height, age)
         self._trunk_diameter = trunk_diameter
 
-    def show_tree(self) -> None:
-        base = super().show()
-        print(f"{base}\n Trunk diametre: {self._trunk_diameter}cm")
+    def show(self) -> None:
+        print (f"{self._name.capitalize()}: "
+                f"{round(self._height, 1)}cm, "
+                f"{self._age} days old \n"
+                f" Trunk diameter: {self._trunk_diameter}")
 
     def produce_shade(self) -> None:
         if self._height >= 0:
@@ -71,11 +75,12 @@ class Vegetable(Plant):
         self._nutri_val = nutri_val
         self._harvest_season = harvest_season
 
-    def show_veg(self) -> None:
-        base = super().show()
-        print(f"{base}\n Harvest season: "
-              f"{self._harvest_season.capitalize()}\n "
-              f"Nutritional value: {self._nutri_val}")
+    def show(self) -> None:
+        print (f"{self._name.capitalize()}: "
+                f"{round(self._height, 1)}cm, "
+                f"{self._age} days old \n"
+                f" Harvest season: {self._harvest_season}\n"
+                f" Nutritional Value: {self._nutri_val}")
 
     def grow_and_age(self, evo: int) -> None:
         i = 0
@@ -89,21 +94,21 @@ class Vegetable(Plant):
 if __name__ == "__main__":
     print("=== Garden Plant Types ===\n=== Flower")
     rose = Flower("rose", 15.0, 10, "red", False)
-    rose.show_flower()
+    rose.show()
     rose.bloom()
     print("[asking the rose to bloom]")
     rose._blooming = True
-    rose.show_flower()
+    rose.show()
     rose.bloom()
     print("\n=== Tree")
     oak = Tree("oak", 200.0, 365, 5)
-    oak.show_tree()
+    oak.show()
     print("[asking the oak to produce shade]")
     oak.produce_shade()
     print("\n=== Vegetable")
     tomato = Vegetable("tomato", 5.0, 10, 0, "april")
-    tomato.show_veg()
+    tomato.show()
     print("[make tomato grow and age for 20  days]")
     evo = 20
     tomato.grow_and_age(evo)
-    tomato.show_veg()
+    tomato.show()

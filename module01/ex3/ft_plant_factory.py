@@ -27,11 +27,11 @@ class Plant:
 
 if __name__ == "__main__":
     print("=== Plant Factory Output ===")
-    rose = Plant("rose", 25, 30)
-    oak = Plant("oak", 200, 365)
-    cactus = Plant("cactus", 5, 90)
-    sunflower = Plant("sunflower", 80, 45)
-    fern = Plant("fern", 15, 120)
+    rose = Plant("rose", 25.0, 30)
+    oak = Plant("oak", 200.0, 365)
+    cactus = Plant("cactus", 5.0, 90)
+    sunflower = Plant("sunflower", 80.0, 45)
+    fern = Plant("fern", 15.0, 120)
     plants = [rose, oak, cactus, sunflower, fern]
     for plant in plants:
         print("Created: ", end="")
