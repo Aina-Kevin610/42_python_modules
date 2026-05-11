@@ -21,7 +21,7 @@ class InvalidArgError(Exception):
 def is_invalid(pos: list) -> None:
     mess: str = "Invalid syntax"
     length: int = 0
-    for i in pos:
+    for _ in pos:
         length += 1
     if length != 3:
         raise InvalidArgError(mess)
