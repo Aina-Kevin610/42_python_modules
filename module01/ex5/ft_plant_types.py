@@ -18,8 +18,8 @@ class Plant:
         self._height = height
 
     def show(self) -> str:
-        print (f"{self._name.capitalize()}: "
-                f"{round(self._height, 1)}cm, {self._age} days old")
+        print(f"{self._name.capitalize()}: "
+              f"{round(self._height, 1)}cm, {self._age} days old")
 
     def grow(self) -> None:
         self._height += 2.1
@@ -37,8 +37,8 @@ class Flower(Plant):
 
     def show(self) -> None:
         super().show()
-        print (f" Color: {self._color}") 
-    
+        print(f" Color: {self._color}")
+
     def bloom(self) -> None:
         if self._blooming:
             print(f"{self._name.capitalize()} is blooming beautiffully!")
@@ -54,7 +54,7 @@ class Tree(Plant):
 
     def show(self) -> None:
         super().show()
-        print (f" Trunk diameter: {self._trunk_diameter}") 
+        print(f" Trunk diameter: {self._trunk_diameter}")
 
     def produce_shade(self) -> None:
         if self._height >= 0:
@@ -73,8 +73,8 @@ class Vegetable(Plant):
 
     def show(self) -> None:
         super().show()
-        print (f" Harvest season: {self._harvest_season}\n"
-               f" Nutritional Value: {self._nutri_val}")
+        print(f" Harvest season: {self._harvest_season}\n"
+              f" Nutritional Value: {self._nutri_val}")
 
     def grow_and_age(self, evo: int) -> None:
         i = 0
