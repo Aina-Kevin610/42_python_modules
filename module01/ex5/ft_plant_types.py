@@ -36,16 +36,14 @@ class Flower(Plant):
         self._blooming = blooming
 
     def show(self) -> None:
-        print (f"{self._name.capitalize()}: "
-                f"{round(self._height, 1)}cm, "
-                f"{self._age} days old \n"
-                f"Color: {self._color}") 
+        super().show()
+        print (f" Color: {self._color}") 
     
     def bloom(self) -> None:
         if self._blooming:
-            print(f"{self._name} is blooming beautiffully!")
+            print(f"{self._name.capitalize()} is blooming beautiffully!")
         else:
-            print(f"{self._name} has not bloomed yet")
+            print(f"{self._name.capitalize()} has not bloomed yet")
 
 
 class Tree(Plant):
@@ -55,14 +53,12 @@ class Tree(Plant):
         self._trunk_diameter = trunk_diameter
 
     def show(self) -> None:
-        print (f"{self._name.capitalize()}: "
-                f"{round(self._height, 1)}cm, "
-                f"{self._age} days old \n"
-                f" Trunk diameter: {self._trunk_diameter}")
+        super().show()
+        print (f" Trunk diameter: {self._trunk_diameter}") 
 
     def produce_shade(self) -> None:
         if self._height >= 0:
-            print(f"Tree {self._name} now produces a shade of "
+            print(f"Tree {self._name.capitalize()} now produces a shade of "
                   f"{self._height}cm long and {self._trunk_diameter}cm wide.")
         else:
             print("Can't produce shade")
@@ -76,11 +72,9 @@ class Vegetable(Plant):
         self._harvest_season = harvest_season
 
     def show(self) -> None:
-        print (f"{self._name.capitalize()}: "
-                f"{round(self._height, 1)}cm, "
-                f"{self._age} days old \n"
-                f" Harvest season: {self._harvest_season}\n"
-                f" Nutritional Value: {self._nutri_val}")
+        super().show()
+        print (f" Harvest season: {self._harvest_season}\n"
+               f" Nutritional Value: {self._nutri_val}")
 
     def grow_and_age(self, evo: int) -> None:
         i = 0
