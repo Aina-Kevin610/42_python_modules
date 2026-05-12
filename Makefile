@@ -1,7 +1,7 @@
 M ?= 01
 E ?= 1
 F ?= *.py
-COMMIT ?= "feat"
+C ?= "feat"
 
 run:
 	python3 module$(M)/ex$(E)/$(F)
@@ -14,7 +14,7 @@ m:
 
 send:
 	git add .
-	git commit -m "$(COMMIT)"
+	git commit -m "$(C)"
 	git push
 
 clean:
