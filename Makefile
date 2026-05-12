@@ -2,6 +2,7 @@ M ?= 01
 E ?= 1
 F ?= *.py
 COMMIT ?= "feat"
+
 run:
 	python3 module$(M)/ex$(E)/$(F)
 
