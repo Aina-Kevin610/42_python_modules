@@ -1,7 +1,7 @@
 M ?= 01
 E ?= 1
 F ?= *.py
-
+COMMIT ?= "feat"
 run:
 	python3 module$(M)/ex$(E)/$(F)
 
@@ -11,9 +11,14 @@ f:
 m:
 	mypy .
 
+send:
+	git add .
+	git commit -m "$(COMMIT)"
+	git push
+
 clean:
 	find . -type f -name "*.pyc" -delete
 	find . -type d -name "__pycache__" -exec rm -rf {} +
 	find . -type d -name ".mypy_cache" -exec rm -rf {} +
 
-.PHONY: clean flake mypy run
+.PHONY: clean flake mypy run send
