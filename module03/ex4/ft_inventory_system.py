@@ -51,7 +51,7 @@ def minimum(inventory: dict) -> tuple:
 
 
 def uptade_inventory(inventory: dict, new_key: str,  new_value: int) -> dict:
-    inventory.update({new_key:new_value})
+    inventory.update({new_key: new_value})
     return inventory
 
 
@@ -81,7 +81,8 @@ def main() -> None:
     print(f"Total qantity of the {len(inventory_key)} items: {totals}")
     i = 0
     while i < len(inventory_key):
-        print(f"Item {inventory_key[i]} represents {percentage(int(inventory_value[i]), totals)}%")
+        print(f"Item {inventory_key[i]} "
+              f"represents {percentage(int(inventory_value[i]), totals)}%")
         i += 1
     max_value = maximum(item_dict)
     min_value = minimum(item_dict)

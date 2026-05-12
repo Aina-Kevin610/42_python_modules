@@ -17,7 +17,7 @@ class Plant:
         self._age = age
         self._height = height
 
-    def show(self) -> str:
+    def show(self) -> None:
         print(f"{self._name.capitalize()}: "
               f"{round(self._height, 1)}cm, {self._age} days old")
 

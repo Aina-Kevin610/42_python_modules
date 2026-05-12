@@ -181,14 +181,14 @@ class Tree(Plant):
     ) -> None:
         super().__init__(name, height, age)
         self._trunk_diameter = trunk_diameter
-        self.stat = self.TreeStat()
+        self.stat_ = self.TreeStat()
 
     def show(self) -> None:
         super().show()
         print(f"Trunk diameter: {self._trunk_diameter}cm")
 
     def produce_shade(self) -> None:
-        self.stat.set_shade()
+        self.stat_.set_shade()
 
         if self._height >= 0:
             print(

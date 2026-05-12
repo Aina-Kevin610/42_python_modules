@@ -55,22 +55,32 @@ def main() -> None:
     print("Player Charlie: ", charlie.achievement)
     print("Player Dylan: ", dylan.achievement)
     print("\nAll distinct achievements: ", set(all_achievements))
-    common = alice.achievement.intersection(bob.achievement, charlie.achievement, dylan.achievement)
+    common = alice.achievement.intersection(bob.achievement,
+                                            charlie.achievement,
+                                            dylan.achievement)
     print("\nCommon achievements: ", common)
-    only = alice.achievement.difference(bob.achievement, charlie.achievement, dylan.achievement)
+    only = alice.achievement.difference(bob.achievement,
+                                        charlie.achievement,
+                                        dylan.achievement)
     print("\nOnly Alice has:", only)
-    only = bob.achievement.difference(alice.achievement, charlie.achievement, dylan.achievement)
+    only = bob.achievement.difference(alice.achievement,
+                                      charlie.achievement,
+                                      dylan.achievement)
     print("Only Bob has:", only)
-    only = charlie.achievement.difference(bob.achievement, alice.achievement, dylan.achievement)
+    only = charlie.achievement.difference(bob.achievement,
+                                          alice.achievement,
+                                          dylan.achievement)
     print("Only Charlie has:", only)
-    only = dylan.achievement.difference(bob.achievement, charlie.achievement, alice.achievement)
+    only = dylan.achievement.difference(bob.achievement,
+                                        charlie.achievement,
+                                        alice.achievement)
     print("Only Dylan has:", only)
     missing = set(all_achievements).difference(alice.achievement)
     print("\nAlice is missing: ", missing)
     missing = set(all_achievements).difference(bob.achievement)
     print("Bob is missing: ", missing)
     missing = set(all_achievements).difference(charlie.achievement)
-    print("Charlie is missing: ", missing)   
+    print("Charlie is missing: ", missing)
     missing = set(all_achievements).difference(dylan.achievement)
     print("Dylan is missing: ", missing)
 

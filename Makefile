@@ -1,7 +1,14 @@
-flake:
+M ?= 01
+E ?= 1
+F ?= *.py
+
+run:
+	python3 module$(M)/ex$(E)/$(F)
+
+f:
 	flake8 .
 
-mypy:
+m:
 	mypy .
 
 clean:
@@ -9,4 +16,4 @@ clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +
 	find . -type d -name ".mypy_cache" -exec rm -rf {} +
 
-.PHONY: clean flake
+.PHONY: clean flake mypy run

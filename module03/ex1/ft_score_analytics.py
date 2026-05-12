@@ -17,6 +17,7 @@ import sys
 class InvalidParams(Exception):
     pass
 
+
 def raise_error(scores: list, params: int) -> None:
     if params <= 1:
         raise InvalidParams()
