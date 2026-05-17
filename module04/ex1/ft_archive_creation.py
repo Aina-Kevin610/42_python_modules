@@ -32,12 +32,12 @@ def main() -> None:
         if filename == "":
             print("Not saving data.")
         else:
-            file.close()
             file: IO[str] = open(filename, "w")
             for content in new_content:
                 file.write(content + "\n")
             print(f"Saving data to '{filename}'\n"
                   f"Data saved in file '{filename}'")
+        file.close()
     except UsageError as e:
         print(f"Usage: {e}")
     except FileNotFoundError as e:
