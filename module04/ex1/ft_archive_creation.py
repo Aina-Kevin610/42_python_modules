@@ -32,7 +32,7 @@ def main() -> None:
         if filename == "":
             print("Not saving data.")
         else:
-            file: IO[str] = open(filename, "w")
+            file = open(filename, "w")
             for content in new_content:
                 file.write(content + "\n")
             print(f"Saving data to '{filename}'\n"
