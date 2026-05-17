@@ -14,30 +14,13 @@ def main() -> None:
         if len(sys.argv) != 2:
             raise UsageError("ft_ancient_text.py <file>")
         print(f"Accessing file '{sys.argv[1]}'")
-        file: IO[str] = open(sys.argv[1], "r")
+        file = open(sys.argv[1], "r")
         content = file.read()
         print("---\n")
         print(content)
         print("\n---")
-    except UsageError as e:
-        print(f"Usage: {e}")
-        return
-    except FileNotFoundError as e:
-        print(f"Error opening file '{sys.argv[1]}': {e}")
-        return
-    except PermissionError as e:
-        print(f"Error opening file '{sys.argv[1]}': {e}")
-        return
-    except EOFError as e:
-        print("Programm interupted")
-        return
-    finally:
-        if file is None:
-            return
         file.close()
-        print(f"File '{sys.argv[1]}' closed.")
-    
-    try:
+        sys.stdout.write(f"File '{sys.argv[1]}' closed.")
         print("\nTransform data:")
         contents = content.split("\n")
         new_content = []
@@ -56,20 +39,15 @@ def main() -> None:
             print(f"Saving data to '{filename}'\n"
                   f"Data saved in file '{filename}'")
     except UsageError as e:
-        print(f"Usage: {e}")
-        return
+        sys.stderr.write(f"[STDERR] Usage: {e}")
     except FileNotFoundError as e:
-        print(f"Error opening file '{sys.argv[1]}': {e}")
-        return
+        sys.stderr.write(f"[STDERR] Error opening file '{sys.argv[1]}': {e}")
     except PermissionError as e:
-        print(f"Error opening file '{sys.argv[1]}': {e}")
-        return
-    except Exception:
-        print("Programm interupted")
-        return
-    except KeyboardInterrupt:
-        print("Programm interupted")
-        return
+        sys.stderr.write(f"[STDERR] Error opening file '{sys.argv[1]}': {e}")
+    except EOFError as e:
+        sys.stderr.write("[STDERR] Programm interupted")
+    except Exception as e:
+        sys.stderr.write("[STDERR] Programm interupted")
     finally:
         if not file is None:
             file.close()

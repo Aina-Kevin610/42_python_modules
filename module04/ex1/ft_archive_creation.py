@@ -19,24 +19,8 @@ def main() -> None:
         print("---\n")
         print(content)
         print("\n---")
-    except UsageError as e:
-        print(f"Usage: {e}")
-        return
-    except FileNotFoundError as e:
-        print(f"Error opening file '{sys.argv[1]}': {e}")
-        return
-    except PermissionError as e:
-        print(f"Error opening file '{sys.argv[1]}': {e}")
-        return
-    except EOFError as e:
-        print("Programm interupted")
-        return
-    finally:
-        if not file is None:
-            file.close()
+        file.close()
         print(f"File '{sys.argv[1]}' closed.")
-    
-    try:
         print("\nTransform data:")
         contents = content.split("\n")
         new_content = []
@@ -56,23 +40,15 @@ def main() -> None:
                   f"Data saved in file '{filename}'")
     except UsageError as e:
         print(f"Usage: {e}")
-        return
     except FileNotFoundError as e:
         print(f"Error opening file '{sys.argv[1]}': {e}")
-        return
     except PermissionError as e:
         print(f"Error opening file '{sys.argv[1]}': {e}")
-        return
+    except EOFError as e:
+        print("Programm interupted")
     except Exception:
         print("Programm interupted")
-        return
-    except KeyboardInterrupt:
-        print("Programm interupted")
-        return
-    finally:
-        if not file is None:
-            file.close()
-
+        
 if __name__ == "__main__":
     print("=== Cyber Archives Recovery & Preservation ===")
     main()
