@@ -20,24 +20,26 @@ def main() -> None:
         print(content)
         print("\n---")
         file.close()
-        sys.stdout.write(f"File '{sys.argv[1]}' closed.")
+        sys.stdout.write(f"File '{sys.argv[1]}' closed.\n")
         print("\nTransform data:")
+        print("---\n")
         contents = content.split("\n")
         new_content = []
         for content in contents:
             new_content.append(content + "#")
             print(content + '#')
-        print("---\n")
-        filename = input("Enter new file name (or empty): ")
-        if filename == "":
+        print("\n---")
+        sys.stdout.write("\nEnter new file name (or empty):")
+        sys.stdout.flush()
+        filename = sys.stdin.readline()
+        if filename == "\n":
             print("Not saving data.")
         else:
             file = open(filename, "w")
             for content in new_content:
                 file.write(content + "\n")
-            print(f"Saving data to '{filename}'\n"
-                  f"Data saved in file '{filename}'")
-        file.close()
+            print(f"Saving data to '{filename.replace("\n", "")}'")
+            print(f"Data saved in file '{filename.replace("\n", "")}'")
     except UsageError as e:
         sys.stderr.write(f"[STDERR] Usage: {e}")
     except FileNotFoundError as e:
@@ -47,7 +49,7 @@ def main() -> None:
     except EOFError as e:
         sys.stderr.write("[STDERR] Programm interupted")
     except Exception as e:
-        sys.stderr.write("[STDERR] Programm interupted")
+        sys.stderr.write(f"[STDERR] Programm interupted {e}")
     finally:
         if not file is None:
             file.close()
