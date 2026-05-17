@@ -32,8 +32,9 @@ def main() -> None:
         print("Programm interupted")
         return
     finally:
-        if not file is None:
-            file.close()
+        if file is None:
+            return
+        file.close()
         print(f"File '{sys.argv[1]}' closed.")
     
     try:

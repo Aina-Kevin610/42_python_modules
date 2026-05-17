@@ -28,9 +28,8 @@ def main() -> None:
         print(f"Error opening file '{sys.argv[1]}': {e}")
         return
     finally:
-        if file is None:
-            return
-        file.close()
+        if not file is None:
+            file.close()
         print(f"File '{sys.argv[1]}' closed.")
 
 
