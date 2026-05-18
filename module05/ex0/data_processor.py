@@ -90,7 +90,27 @@ class TextProcessor(DataProcessor):
 
 
 class LogProcessor(DataProcessor):
-    pass
+    def validate(self, data):
+        check = False
+
+        if isinstance(data, dict):
+            if all(isinstance(x, str) 
+                   for x in data.keys()) and all(isinstance(x, str) 
+                                                 for x in data.values()):
+                check = True
+        elif all(isinstance(x, dict) for x in data):
+            for x in data:
+                if all(isinstance(key, str) 
+                       for key in x.keys()) and all(isinstance(val, str) 
+                                                    for val in x.values()):
+                    check = True
+                else:
+                    return False
+
+        return check
+
+    def ingest(self, data):
+        pass
 
 
 def main() -> None:
@@ -105,12 +125,16 @@ def main() -> None:
         print(f" Numeric value {i}: {num_proc.output()}")
 
     print("\nTesting Text Processor...")
-    proc = TextProcessor()
-    print(f" Trying to validate input '42': {proc.validate(42)}")
-    proc.ingest(["hello", "Nexus", "World"])
+    str_proc = TextProcessor()
+    print(f" Trying to validate input '42': {str_proc.validate(42)}")
+    str_proc.ingest(["hello", "Nexus", "World"])
     print(" Extracting 1 value...")
     for i in range(1):
-        print(f" Numeric value {i}: {proc.output()}")
+        print(f" Text value {i}: {str_proc.output()}")
+
+    log_proc = LogProcessor()
+    print(log_proc.validate([{"5": "world"}, {"hwello": "0"}]))
+    
 
 if __name__ == "__main__":
     print("=== Code Nexus - Data Processor ===")
