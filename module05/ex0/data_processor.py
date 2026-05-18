@@ -36,9 +36,11 @@ class NumericProcessor(DataProcessor):
 
         if isinstance(data, int) or isinstance(data, float):
             check = True
-        elif all(isinstance(x, str) for x in data):
+        elif all(isinstance(x, int) 
+                 or isinstance(x, float) 
+                 for x in data):
             check = True
-    
+        
         return check
 
 
@@ -51,9 +53,10 @@ class NumericProcessor(DataProcessor):
 
             if isinstance(data, list):
                 for x in data:
-                    self.stock.append(x)
+
+                    self.stock.append(str(x))
             else:
-                self.stock.append(data)
+                self.stock.append(str(data))
     
         except Invalid as e:
             print(" Got exception:", e)
@@ -78,6 +81,12 @@ class TextProcessor(DataProcessor):
             
             print(f" Processing data: {data}")
 
+            if isinstance(data, list):
+                for x in data:
+                    self.stock.append(x)
+            else:
+                self.stock.append(data)
+
         except Invalid as e:
             print("Got exception: ", e)
 
@@ -101,8 +110,9 @@ def main() -> None:
     proc = TextProcessor()
     print(f" Trying to validate input '42': {proc.validate(42)}")
     proc.ingest(["hello", "Nexus", "World"])
-    print("Extracting 1 value...")
-
+    print(" Extracting 1 value...")
+    for i in range(1):
+        print(f" Numeric value {i}: {proc.output()}")
 
 if __name__ == "__main__":
     print("=== Code Nexus - Data Processor ===")
