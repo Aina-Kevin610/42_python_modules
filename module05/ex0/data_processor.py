@@ -9,6 +9,10 @@ class Invalid(Exception):
 
 
 class DataProcessor(ABC):
+    def __init__(self):
+        self.stock = []
+
+
     @abstractmethod
     def validate(self, data: any) -> bool:
         pass
@@ -19,20 +23,22 @@ class DataProcessor(ABC):
 
 
     def output(self) -> tuple[int, str]:
-        pass
+        if not self.stock == []:
+            return self.stock.pop(0)
 
 
 class NumericProcessor(DataProcessor):
+    def __init__(self):
+        self.stock = []
+
     def validate(self, data: any) -> bool:
         check = False
+
         if isinstance(data, int) or isinstance(data, float):
             check = True
-        elif isinstance(data, list):
-            for x in data:
-                if isinstance(x, int) or isinstance(x, float):
-                    check = True
-                else:
-                    check = False
+        elif all(isinstance(x, str) for x in data):
+            check = True
+    
         return check
 
 
@@ -40,14 +46,40 @@ class NumericProcessor(DataProcessor):
         try:
             if not self.validate(data):
                 raise Invalid("Improper numeric data")
-            print(f"Processing data: {data}")
             
+            print(f" Processing data: {data}")
+
+            if isinstance(data, list):
+                for x in data:
+                    self.stock.append(x)
+            else:
+                self.stock.append(data)
+    
         except Invalid as e:
             print(" Got exception:", e)
 
 
 class TextProcessor(DataProcessor):
-    pass
+
+    def validate(self, data: any) -> bool:
+        check = False
+
+        if isinstance(data, str):
+            check = True
+        elif isinstance(data, list) and all(isinstance(x, str) for x in data):
+            check = True
+
+        return check
+    
+    def ingest(self, data: any) -> None:
+        try:
+            if not self.validate(data):
+                raise Invalid("Improper string data")
+            
+            print(f" Processing data: {data}")
+
+        except Invalid as e:
+            print("Got exception: ", e)
 
 
 class LogProcessor(DataProcessor):
@@ -61,6 +93,15 @@ def main() -> None:
     print(f" Trying to validate input 'Hello': {num_proc.validate("Hello")}")
     print(" Test invalid ingestion of string 'foo' without prior validation:")
     num_proc.ingest([1, 2, 3, 4, 5])
+    print(" Extracting 3 values...")
+    for i in range(3):
+        print(f" Numeric value {i}: {num_proc.output()}")
+
+    print("\nTesting Text Processor...")
+    proc = TextProcessor()
+    print(f" Trying to validate input '42': {proc.validate(42)}")
+    proc.ingest(["hello", "Nexus", "World"])
+    print("Extracting 1 value...")
 
 
 if __name__ == "__main__":
