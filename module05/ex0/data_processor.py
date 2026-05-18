@@ -109,8 +109,21 @@ class LogProcessor(DataProcessor):
 
         return check
 
-    def ingest(self, data):
-        pass
+    def ingest(self, data: any) -> None:
+        try:
+            if not self.validate(data):
+                raise Invalid("Improper {key:value} data")
+            
+            print("processing data ", data)
+
+            if isinstance(data, dict):
+                self.stock.append(data)
+            else:
+                for x in data:
+                    self.stock.append(x)
+
+        except Invalid as e:
+            print(" Got exception: ", e)
 
 
 def main() -> None:
@@ -133,8 +146,13 @@ def main() -> None:
         print(f" Text value {i}: {str_proc.output()}")
 
     log_proc = LogProcessor()
-    print(log_proc.validate([{"5": "world"}, {"hwello": "0"}]))
-    
+    print(f" Trying to validate input 'Hello': {log_proc.validate("hello")}")
+    log_proc.ingest([{'log_level': 'NOTICE', 
+                      'log_message': 'Connection to server'}, 
+                     {'log_level': 'ERROR', 
+                      'log_message': 'Unauthorized access!!'}])
+    for i in range(2):
+        print(f" Text value {i}: {log_proc.output()}")
 
 if __name__ == "__main__":
     print("=== Code Nexus - Data Processor ===")
