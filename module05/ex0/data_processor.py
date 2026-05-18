@@ -28,8 +28,6 @@ class DataProcessor(ABC):
 
 
 class NumericProcessor(DataProcessor):
-    def __init__(self):
-        self.stock = []
 
     def validate(self, data: any) -> bool:
         check = False
