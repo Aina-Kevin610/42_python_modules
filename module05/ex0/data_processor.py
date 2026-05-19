@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from abc import ABC, abstractmethod
-# import typing
+import typing
 
 
 class Invalid(Exception):
