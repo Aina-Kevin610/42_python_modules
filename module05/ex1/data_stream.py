@@ -123,45 +123,26 @@ class LogProcessor(DataProcessor):
             print(" Got exception: ", e)
 
 
-def main() -> None:
-    print("\nTesting Numeric Processor...")
-    num_proc = NumericProcessor()
-    print(f" Trying to validate input '42': {num_proc.validate(42)}")
-    print(f" Trying to validate input 'Hello': {num_proc.validate("Hello")}")
-    print(" Test invalid ingestion of string 'foo' without prior validation:")
-    num_proc.ingest([1, 2, 3, 4, 5])
-    print(" Extracting 3 values...")
-    for i in range(3):
-        print(f" Numeric value {i}: {num_proc.output()}")
-
-    print("\nTesting Text Processor...")
-    str_proc = TextProcessor()
-    print(f" Trying to validate input '42': {str_proc.validate(42)}")
-    str_proc.ingest(["hello", "Nexus", "World"])
-    print(" Extracting 1 value...")
-    for i in range(1):
-        print(f" Text value {i}: {str_proc.output()}")
-
-
-    print("\nTesting Log Processor...")
-    log_proc = LogProcessor()
-    print(f" Trying to validate input 'Hello': {log_proc.validate("hello")}")
-    log_proc.ingest([{'log_level': 'NOTICE', 
-                      'log_message': 'Connection to server'}, 
-                     {'log_level': 'ERROR', 
-                      'log_message': 'Unauthorized access!!'}])
-    for i in range(2):
-        print(f" Log entry {i}: {log_proc.output()}")
-
 
 class DataStream:
     def __init__(self, stream: Any) -> None:
         self.stream = stream
+        self.proc = []
        
     def register_processor(self, proc: DataProcessor) -> None:
-        if NumericProcessor.validate():
-            pass
+        self.proc.append(proc)
 
+
+def main() -> None:
+    stream = DataStream(["hello", 
+                         [1, 2, 3, 4, 5], 
+                         [{"log_level": "LOGIN", "log_message": "SUCCES"}, 
+                          {"log_level": "LOGOUT", "log_message": "SUCCES"}]])
+
+    stream.register_processor(NumericProcessor())
+    print(stream.proc)
+    num_proc = stream.proc[0]
+    print(num_proc.validate("hello"))
 
 if __name__ == "__main__":
     print("=== Code Nexus - Data Processor ===")
