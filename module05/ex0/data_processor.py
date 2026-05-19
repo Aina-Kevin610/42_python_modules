@@ -92,7 +92,7 @@ class LogProcessor(DataProcessor):
         check = False
 
         if isinstance(data, dict) and len(data) == 2:
-            if ["log_level", "log_message"] == data.keys():
+            if set(data.keys()) == {"log_level", "log_message"}:
                 check = True
         elif all(isinstance(x, dict) and len(x) == 2 for x in data):
             for x in data:
