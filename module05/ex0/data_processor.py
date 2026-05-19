@@ -93,16 +93,14 @@ class LogProcessor(DataProcessor):
     def validate(self, data):
         check = False
 
-        if isinstance(data, dict):
-            if all(isinstance(x, str) 
-                   for x in data.keys()) and all(isinstance(x, str) 
-                                                 for x in data.values()):
+        if isinstance(data, dict) and len(data) == 2:
+            if ["log_level", "log_message"] == data.keys():
                 check = True
-        elif all(isinstance(x, dict) for x in data):
+        elif all(isinstance(x, dict) and len(x) == 2 for x in data):
             for x in data:
                 if all(isinstance(key, str) 
-                       for key in x.keys()) and all(isinstance(val, str) 
-                                                    for val in x.values()):
+                       and key in ["log_level", "log_message"] 
+                       for key in x.keys()):
                     check = True
                 else:
                     return False
@@ -114,13 +112,13 @@ class LogProcessor(DataProcessor):
             if not self.validate(data):
                 raise Invalid("Improper {key:value} data")
             
-            print("processing data ", data)
+            print(" processing data ", data)
 
             if isinstance(data, dict):
-                self.stock.append(data)
+                self.stock.append([data["log_level"], data["log_message"]])
             else:
                 for x in data:
-                    self.stock.append(x)
+                    self.stock.append([x["log_level"], x["log_message"]])
 
         except Invalid as e:
             print(" Got exception: ", e)
@@ -145,6 +143,8 @@ def main() -> None:
     for i in range(1):
         print(f" Text value {i}: {str_proc.output()}")
 
+
+    print("\nTesting Log Processor...")
     log_proc = LogProcessor()
     print(f" Trying to validate input 'Hello': {log_proc.validate("hello")}")
     log_proc.ingest([{'log_level': 'NOTICE', 
@@ -152,7 +152,8 @@ def main() -> None:
                      {'log_level': 'ERROR', 
                       'log_message': 'Unauthorized access!!'}])
     for i in range(2):
-        print(f" Text value {i}: {log_proc.output()}")
+        res = log_proc.output()
+        print(f" Log entry {i}: {res[0]}: {res[1]}")
 
 if __name__ == "__main__":
     print("=== Code Nexus - Data Processor ===")
