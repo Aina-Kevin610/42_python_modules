@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
 from abc import ABC, abstractmethod
-import typing
-
+from typing import Any
 
 class Invalid(Exception):
     pass
@@ -12,13 +11,12 @@ class DataProcessor(ABC):
     def __init__(self):
         self.stock = []
 
-
     @abstractmethod
-    def validate(self, data: any) -> bool:
+    def validate(self, data: Any) -> bool:
         pass
 
     @abstractmethod
-    def ingest(self, data: any) -> None:
+    def ingest(self, data: Any) -> None:
         pass
 
 
@@ -29,7 +27,7 @@ class DataProcessor(ABC):
 
 class NumericProcessor(DataProcessor):
 
-    def validate(self, data: any) -> bool:
+    def validate(self, data: Any) -> bool:
         check = False
 
         if isinstance(data, int) or isinstance(data, float):
@@ -42,7 +40,7 @@ class NumericProcessor(DataProcessor):
         return check
 
 
-    def ingest(self, data: any) -> None:
+    def ingest(self, data: int | float | list[int | float]) -> None:
         try:
             if not self.validate(data):
                 raise Invalid("Improper numeric data")
@@ -62,7 +60,7 @@ class NumericProcessor(DataProcessor):
 
 class TextProcessor(DataProcessor):
 
-    def validate(self, data: any) -> bool:
+    def validate(self, data: Any) -> bool:
         check = False
 
         if isinstance(data, str):
@@ -72,7 +70,7 @@ class TextProcessor(DataProcessor):
 
         return check
     
-    def ingest(self, data: any) -> None:
+    def ingest(self, data: str | list[str]) -> None:
         try:
             if not self.validate(data):
                 raise Invalid("Improper string data")
@@ -107,7 +105,7 @@ class LogProcessor(DataProcessor):
 
         return check
 
-    def ingest(self, data: any) -> None:
+    def ingest(self, data: dict | list[dict]) -> None:
         try:
             if not self.validate(data):
                 raise Invalid("Improper {key:value} data")
@@ -115,10 +113,11 @@ class LogProcessor(DataProcessor):
             print(" processing data ", data)
 
             if isinstance(data, dict):
-                self.stock.append([data["log_level"], data["log_message"]])
+                self.stock.append([data["log_level"] + ": " + data["log_message"]])
             else:
                 for x in data:
-                    self.stock.append([x["log_level"], x["log_message"]])
+                    result = x["log_level"] + ": " + x["log_message"]
+                    self.stock.append(result)
 
         except Invalid as e:
             print(" Got exception: ", e)
@@ -152,8 +151,7 @@ def main() -> None:
                      {'log_level': 'ERROR', 
                       'log_message': 'Unauthorized access!!'}])
     for i in range(2):
-        res = log_proc.output()
-        print(f" Log entry {i}: {res[0]}: {res[1]}")
+        print(f" Log entry {i}: {log_proc.output()}")
 
 if __name__ == "__main__":
     print("=== Code Nexus - Data Processor ===")
