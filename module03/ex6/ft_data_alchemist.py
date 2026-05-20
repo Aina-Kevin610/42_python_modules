@@ -3,7 +3,7 @@
 import random
 
 
-def main():
+def main() -> None:
     players = ['Alice', 'bob', 'Charlie', 'dylan',
                'Emma', 'Gregory', 'john', 'kevin',
                'Liam']
@@ -31,4 +31,3 @@ if __name__ == "__main__":
         main()
     except Exception:
         print("Unknown error happened!")
-    

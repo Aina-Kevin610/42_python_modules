@@ -47,7 +47,7 @@ def main() -> None:
                                     charlie.achievement,
                                     dylan.achievement)
 
-    print("\nAll distinct achievements: ", set(union))
+    print("\nAll distinct achievements: ", union)
     common = alice.achievement.intersection(bob.achievement,
                                             charlie.achievement,
                                             dylan.achievement)
@@ -85,4 +85,3 @@ if __name__ == "__main__":
         main()
     except Exception:
         print("Unknown error happened!")
-

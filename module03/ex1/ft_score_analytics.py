@@ -7,14 +7,14 @@ class InvalidParams(Exception):
     pass
 
 
-def raise_error(scores: list, params: int) -> None:
+def raise_error(scores: list[int], params: int) -> None:
     if params <= 1:
         raise InvalidParams()
     for score in scores:
         score = int(score)
 
 
-def error_handler(scores: list, params: int) -> list:
+def error_handler(scores: list[str | int], params: int) -> list[int]:
     m1: str = "python3 ft_score_analytics.py <score1> <score2> ..."
     m: str = f"No scores provided. Usage: {m1}"
     result = []
@@ -35,7 +35,7 @@ def error_handler(scores: list, params: int) -> list:
 
 def main() -> None:
     print("=== Player Score Analytics ===")
-    scores: list = [score for score in sys.argv if score != sys.argv[0]]
+    scores = [score for score in sys.argv if score != sys.argv[0]]
     scores = error_handler(scores, len(sys.argv))
     try:
         Average = sum(scores) / len(scores)
@@ -55,4 +55,3 @@ if __name__ == "__main__":
         main()
     except Exception:
         print("Unknown error happened!")
-

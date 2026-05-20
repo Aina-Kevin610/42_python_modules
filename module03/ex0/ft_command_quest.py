@@ -22,4 +22,3 @@ if __name__ == "__main__":
         main()
     except Exception:
         print("Unknown error happened!")
-

@@ -31,6 +31,10 @@ class DataProcessor(ABC):
 
 
 class NumericProcessor(DataProcessor):
+    def __init__(self):
+        super().__init__()
+        self.name = "numeric_processor"
+
     def validate(self, data: Any) -> bool:
         check = False
 
@@ -61,6 +65,9 @@ class NumericProcessor(DataProcessor):
 
 
 class TextProcessor(DataProcessor):
+    def __init__(self):
+        super().__init__()
+        self.name = "text_processor"
 
     def validate(self, data: Any) -> bool:
         check = False
@@ -89,6 +96,10 @@ class TextProcessor(DataProcessor):
 
 
 class LogProcessor(DataProcessor):
+    def __init__(self):
+        super().__init__()
+        self.name = "log_processor"
+
     def validate(self, data):
         check = False
 
@@ -97,7 +108,7 @@ class LogProcessor(DataProcessor):
                 check = True
         elif all(isinstance(x, dict) and len(x) == 2 for x in data):
             for x in data:
-                if all(isinstance(key, str) 
+                if all(isinstance(key, str)
                        and key in ["log_level", "log_message"] 
                        for key in x.keys()):
                     check = True
@@ -110,7 +121,7 @@ class LogProcessor(DataProcessor):
         try:
             if not self.validate(data):
                 raise Invalid("Improper {key:value} data")
-            
+
             if isinstance(data, dict):
                 self.stock.append([data["log_level"] + ": " + data["log_message"]])
             else:
@@ -124,19 +135,19 @@ class LogProcessor(DataProcessor):
 
 
 class DataStream:
-    # class Statistics:
-    #     def __init__(self):
-    #         self.num = 0
-    #         self.str = 0
-    #         self.log = 0
+    class Statistics:
+        def __init__(self):
+            self.num = 0
+            self.str = 0
+            self.log = 0
 
-    #     def show(self):
-    #         print(self.num)
-    #         print(self.str)
-    #         print(self.log)
+        def show(self):
+            print(self.num)
+            print(self.str)
+            print(self.log)
 
     def __init__(self) -> None:
-        # self.stat = self.Statistics()
+        self.stat = self.Statistics()
         self.proc = []
        
     def register_processor(self, proc: DataProcessor) -> None:
@@ -148,15 +159,20 @@ class DataStream:
             if self.proc == [] or stream == []:
                 raise EmptyError("No processor found, no data")
             else:
-                    for data in stream:
-                        check = False
-                        for proc in self.proc:
-                            if proc.validate(data):
-                                proc.ingest(data)
-                                check = True
-                        if not check:
-                            print("DataStream error -  Can't process element in stream: ", data)
-
+                for data in stream:
+                    check = False
+                    for proc in self.proc:
+                        if proc.validate(data):
+                            proc.ingest(data)
+                            if proc.name == "numeric_processor":
+                                self.stat.num += 1
+                            if proc.name == "text_processor":
+                                self.stat.str += 1
+                            if proc.name == "log_processor":
+                                self.stat.log += 1
+                            check = True
+                    if not check:
+                        print("DataStream error -  Can't process element in stream: ", data)
         except EmptyError as e:
             print(e)
 
@@ -165,12 +181,12 @@ class DataStream:
 
 
 def main() -> None:
-    stream_data = ['Hello world', 
-              [3.14, -1, 2.71], 
-              [{'log_level': 'WARNING', 'log_message': 'Telnet access! Use ssh instead'}, 
-               {'log_level': 'INFO', 'log_message': 'User wil isconnected'}], 
-               42, 
-               ['Hi', 'five']
+    stream_data = ['Hello world',
+                   [3.14, -1, 2.71],
+                   [{'log_level': 'WARNING', 'log_message': 'Telnet access! Use ssh instead'},
+                    {'log_level': 'INFO', 'log_message': 'User wil isconnected'}],
+                    42,
+                   ['Hi', 'five']
     ]
     stream = DataStream()
 
@@ -184,14 +200,17 @@ def main() -> None:
 
     print("Registering Numeric Processor\n")
     stream.register_processor(num_proc)
+    stream.register_processor(str_proc)
+    stream.register_processor(log_proc)
     print("send first batch to data on stream: ", stream_data, "\n")
     stream.process_stream(stream_data)
 
+
     print("== DataStream statistics ==")
+
+    # stream.process_stream(stream_data)
     
-    stream.register_processor(str_proc)
-    stream.register_processor(log_proc)
-    
+    stream.stat.show()
 
 
 if __name__ == "__main__":

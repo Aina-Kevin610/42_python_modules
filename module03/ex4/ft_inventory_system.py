@@ -74,12 +74,14 @@ def main() -> None:
         i = 0
         while i < len(inventory_key):
             print(f"Item {inventory_key[i]} "
-                f"represents {percentage(int(inventory_value[i]), totals)}%")
+                  f"represents {percentage(int(inventory_value[i]), totals)}%")
             i += 1
         max_value = maximum(item_dict)
         min_value = minimum(item_dict)
-        print(f"Item most abundant: {max_value[1]} with quantity {max_value[0]}")
-        print(f"Item least abundant: {min_value[1]} with quantity {min_value[0]}")
+        print(f"Item most abundant: {max_value[1]} "
+              f"with quantity {max_value[0]}")
+        print(f"Item least abundant: {min_value[1]} "
+              f"with quantity {min_value[0]}")
         item_dict = uptade_inventory(item_dict, "magic_item", 1)
         print("Updated inventory: ", item_dict)
     except InvalidParams as e:
