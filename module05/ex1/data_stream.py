@@ -7,6 +7,10 @@ class Invalid(Exception):
     pass
 
 
+class EmptyError(Exception):
+    pass
+
+
 class DataProcessor(ABC):
 
     def __init__(self):
@@ -40,21 +44,17 @@ class NumericProcessor(DataProcessor):
         return check
 
 
-    def ingest(self, data: int | float | list[int | float]) -> int:
+    def ingest(self, data: int | float | list[int | float]) -> None:
         try:
             if not self.validate(data):
                 raise Invalid("Improper numeric data")
             
-            print(f" Processing data: {data}")
-
             if isinstance(data, list):
                 for x in data:
 
                     self.stock.append(str(x))
-                    return 1
             else:
                 self.stock.append(str(data))
-                return 1
 
         except Invalid as e:
             print(" Got exception:", e)
@@ -77,15 +77,12 @@ class TextProcessor(DataProcessor):
             if not self.validate(data):
                 raise Invalid("Improper string data")
             
-            print(f" Processing data: {data}")
 
             if isinstance(data, list):
                 for x in data:
                     self.stock.append(x)
-                    return 1
             else:
                 self.stock.append(data)
-                return 1
 
         except Invalid as e:
             print("Got exception: ", e)
@@ -114,16 +111,12 @@ class LogProcessor(DataProcessor):
             if not self.validate(data):
                 raise Invalid("Improper {key:value} data")
             
-            print(" processing data ", data)
-
             if isinstance(data, dict):
                 self.stock.append([data["log_level"] + ": " + data["log_message"]])
-                return 1
             else:
                 for x in data:
                     result = x["log_level"] + ": " + x["log_message"]
                     self.stock.append(result)
-                return 1
 
         except Invalid as e:
             print(" Got exception: ", e)
@@ -131,9 +124,19 @@ class LogProcessor(DataProcessor):
 
 
 class DataStream:
+    # class Statistics:
+    #     def __init__(self):
+    #         self.num = 0
+    #         self.str = 0
+    #         self.log = 0
+
+    #     def show(self):
+    #         print(self.num)
+    #         print(self.str)
+    #         print(self.log)
 
     def __init__(self) -> None:
-        self.stat = self.Statistics()
+        # self.stat = self.Statistics()
         self.proc = []
        
     def register_processor(self, proc: DataProcessor) -> None:
@@ -141,35 +144,56 @@ class DataStream:
 
 
     def process_stream(self, stream: list[Any])-> None:
-        for data in stream:
-            check = False
-            for proc in self.proc:
-                if proc.validate(data):
-                    self.stat += proc.ingest(data)
-                    check = True
-            if not check:
-                print("Error - No process compatible!")
+        try:
+            if self.proc == [] or stream == []:
+                raise EmptyError("No processor found, no data")
+            else:
+                    for data in stream:
+                        check = False
+                        for proc in self.proc:
+                            if proc.validate(data):
+                                proc.ingest(data)
+                                check = True
+                        if not check:
+                            print("DataStream error -  Can't process element in stream: ", data)
+
+        except EmptyError as e:
+            print(e)
 
     def print_processors_stats(self) -> None:
         print("H")
 
 
 def main() -> None:
+    stream_data = ['Hello world', 
+              [3.14, -1, 2.71], 
+              [{'log_level': 'WARNING', 'log_message': 'Telnet access! Use ssh instead'}, 
+               {'log_level': 'INFO', 'log_message': 'User wil isconnected'}], 
+               42, 
+               ['Hi', 'five']
+    ]
+    stream = DataStream()
+
     num_proc = NumericProcessor()
     str_proc = TextProcessor()
     log_proc = LogProcessor()
 
-    stream = DataStream()
-    
+
+    stream.process_stream([])
+    print("\n")
+
+    print("Registering Numeric Processor\n")
     stream.register_processor(num_proc)
+    print("send first batch to data on stream: ", stream_data, "\n")
+    stream.process_stream(stream_data)
+
+    print("== DataStream statistics ==")
+    
     stream.register_processor(str_proc)
     stream.register_processor(log_proc)
-    stream.process_stream(["hello", 
-                         [1, 2, 3, 4, 5], 
-                         [{"log_level": "LOGIN", "log_message": "SUCCES"}, 
-                          {"log_level": "LOGOUT", "log_message": "SUCCES"}]])
+    
 
 
 if __name__ == "__main__":
-    print("=== Code Nexus - Data Processor ===")
+    print("=== Code Nexus - Data Stream ===")
     main()

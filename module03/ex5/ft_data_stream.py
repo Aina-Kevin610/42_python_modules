@@ -48,4 +48,8 @@ def main() -> None:
 
 if __name__ == "__main__":
     print("=== Game Data Stream Processor ===")
-    main()
+    try:
+        main()
+    except Exception:
+        print("Unknown error happened!")
+

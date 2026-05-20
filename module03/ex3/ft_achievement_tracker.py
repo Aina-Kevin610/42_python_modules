@@ -43,10 +43,15 @@ def main() -> None:
     print("Player Bob: ", bob.achievement)
     print("Player Charlie: ", charlie.achievement)
     print("Player Dylan: ", dylan.achievement)
-    print("\nAll distinct achievements: ", set(all_achievements))
+    union = alice.achievement.union(bob.achievement,
+                                    charlie.achievement,
+                                    dylan.achievement)
+
+    print("\nAll distinct achievements: ", set(union))
     common = alice.achievement.intersection(bob.achievement,
                                             charlie.achievement,
                                             dylan.achievement)
+
     print("\nCommon achievements: ", common)
     only = alice.achievement.difference(bob.achievement,
                                         charlie.achievement,
@@ -76,4 +81,8 @@ def main() -> None:
 
 if __name__ == "__main__":
     print("=== Achievement Tracker System ===\n")
-    main()
+    try:
+        main()
+    except Exception:
+        print("Unknown error happened!")
+

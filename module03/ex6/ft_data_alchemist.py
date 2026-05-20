@@ -27,4 +27,8 @@ def main():
 
 if __name__ == "__main__":
     print("=== Game Data Alchemist ===\n")
-    main()
+    try:
+        main()
+    except Exception:
+        print("Unknown error happened!")
+    
