@@ -164,12 +164,21 @@ class DataStream:
                 for proc in self.proc:
                     if proc.validate(data):
                         proc.ingest(data)
-                        # if proc.name == "numeric_processor":
-                        #     self.stat.num += len(data)
-                        # if proc.name == "text_processor":
-                        #     self.stat.str += len(data)
-                        # if proc.name == "log_processor":
-                        #     self.stat.log += len(data)
+                        if proc.name == "numeric_processor":
+                            if isinstance(data, list):
+                                self.stat.num += len(data)
+                            else:
+                                self.stat.num += 1
+                        if proc.name == "text_processor":
+                            if isinstance(data, list):
+                                self.stat.str += len(data)
+                            else:
+                                self.stat.str += 1
+                        if proc.name == "log_processor":
+                            if isinstance(data, list):
+                                self.stat.log += len(data)
+                            else:
+                                self.stat.log += 1
                         check = True
                 if not check:
                         print("DataStream error -  Can't process element in stream: ", data)
@@ -177,7 +186,7 @@ class DataStream:
             print(e)
 
     def print_processors_stats(self) -> None:
-
+        print("== DataStream statistics ==")
         for x in self.proc:
             if x.name == "numeric_processor":
                 print(f"Numeric Processor: total {self.stat.num} items processed, remaining {len(x.stock)} on processor")
@@ -207,20 +216,27 @@ def main() -> None:
     print("Registering Numeric Processor\n")
     stream.register_processor(num_proc)
     
-    
     print("send first batch to data on stream: ", stream_data, "\n")
     stream.process_stream(stream_data)
 
-    print("== DataStream statistics ==")
     stream.print_processors_stats()
 
+    print("\nRegistering other data processors")
     stream.register_processor(log_proc)
     stream.register_processor(str_proc)
     stream.process_stream(stream_data)
-    print("\n")
-    print("\n")
-
     stream.print_processors_stats()
+    print("\n")
+    
+    print("Consume some elements from the data processors: Numeric 3, Text 2, Log 1")
+    for _ in range(3):
+        num_proc.output()
+    for _ in range(2):
+        str_proc.output()
+    for _ in range(1):
+        log_proc.output()
+    stream.print_processors_stats()
+
 
 if __name__ == "__main__":
     print("=== Code Nexus - Data Stream ===")
