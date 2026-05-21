@@ -3,7 +3,7 @@
 import random
 
 
-all_achievements: list = [
+all_achievements: list[str] = [
     'Crafting Genius',
     'Strategist',
     'World Savior',
@@ -22,12 +22,12 @@ all_achievements: list = [
 
 
 class Player:
-    def __init__(self, name: str, achievement: set) -> None:
+    def __init__(self, name: str, achievement: set[str]) -> None:
         self.name = name
         self.achievement = achievement
 
 
-def gen_player_achievements() -> set:
+def gen_player_achievements() -> set[str]:
     nb = random.randint(1, 14)
     achievement = random.sample(all_achievements, nb)
     return (set(achievement))

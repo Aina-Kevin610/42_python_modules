@@ -7,21 +7,21 @@ class InvalidParams(Exception):
     pass
 
 
-def total(inventory: list) -> int:
-    sum = 0
+def total(inventory: list[int]) -> int:
+    res: int = 0
     for item in inventory:
         item = int(item)
-        sum += item
-    return (sum)
+        res += item
+    return (res)
 
 
-def percentage(unit: int, total: int) -> float:
-    if total != 0:
-        return (round((unit * 100) / total, 2))
-    return 0
+def percentage(unit: int, tot: int) -> float:
+    if tot != 0:
+        return (round((unit * 100) / tot, 2))
+    return 0.0
 
 
-def maximum(inventory: dict) -> tuple:
+def maximum(inventory: dict[str, int]) -> tuple[int, str]:
     max_key = list(inventory.keys())[0]
     max_value = inventory[max_key]
     for key in inventory:
@@ -31,7 +31,7 @@ def maximum(inventory: dict) -> tuple:
     return (max_value, max_key)
 
 
-def minimum(inventory: dict) -> tuple:
+def minimum(inventory: dict[str, int]) -> tuple[int, str]:
     max_key = list(inventory.keys())[0]
     max_value = inventory[max_key]
     for key in inventory:
@@ -41,7 +41,9 @@ def minimum(inventory: dict) -> tuple:
     return (max_value, max_key)
 
 
-def uptade_inventory(inventory: dict, new_key: str,  new_value: int) -> dict:
+def uptade_inventory(inventory: dict[str, int],
+                     new_key: str,
+                     new_value: int) -> dict[str, int]:
     inventory.update({new_key: new_value})
     return inventory
 
@@ -50,7 +52,7 @@ def main() -> None:
     try:
         if len(sys.argv) == 1:
             raise InvalidParams("No argument found!")
-        items = list(item for item in sys.argv if item != sys.argv[0])
+        items = [item for item in sys.argv if item != sys.argv[0]]
         item_dict = dict()
         for item in items:
             try:

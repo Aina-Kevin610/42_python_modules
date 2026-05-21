@@ -7,7 +7,7 @@ class InvalidArgError(Exception):
     pass
 
 
-def is_invalid(pos: list) -> None:
+def is_invalid(pos: list[str]) -> None:
     mess: str = "Invalid syntax"
     length: int = 0
     for _ in pos:
@@ -16,15 +16,16 @@ def is_invalid(pos: list) -> None:
         raise InvalidArgError(mess)
 
 
-def get_player_pos() -> tuple:
+def get_player_pos() -> tuple[float, float, float]:
     mess: str = "Enter new coordinates as floats in format 'x,y,z': "
     while True:
-        pos: list = input(mess).split(',')
+        pos: list[str] = input(mess).split(',')
+        element: str = ""
         try:
             is_invalid(pos)
             for element in pos:
                 float(element)
-            return tuple(pos)
+            return (float(pos[0]), float(pos[1]), float(pos[2]))
         except InvalidArgError as e:
             print(e)
         except ValueError:
@@ -35,7 +36,7 @@ def get_player_pos() -> tuple:
 def main() -> None:
     print("=== Game Coordinate System ===\n")
     print("Get a first set of coordinates")
-    pos_1: tuple = get_player_pos()
+    pos_1: tuple[float, float, float] = get_player_pos()
     a: float = float(pos_1[0])
     b: float = float(pos_1[1])
     c: float = float(pos_1[2])
@@ -45,7 +46,7 @@ def main() -> None:
     print(f"Distance to center: {round(dis, 4)}\n")
 
     print("Get a second set of coordinates")
-    pos_2: tuple = get_player_pos()
+    pos_2: tuple[float, float, float] = get_player_pos()
     x: float = float(pos_2[0])
     y: float = float(pos_2[1])
     z: float = float(pos_2[2])
@@ -58,3 +59,5 @@ if __name__ == "__main__":
         main()
     except Exception:
         print("Unknown error happened!")
+    except BaseException:
+        print("\n\nthe programm was interrupted!")
