@@ -189,7 +189,7 @@ def main() -> None:
                    [3.14, -1, 2.71],
                    [{'log_level': 'WARNING', 'log_message': 'Telnet access! Use ssh instead'},
                     {'log_level': 'INFO', 'log_message': 'User wil isconnected'}],
-                    # 42,
+                    42,
                    ['Hi', 'five']
     ]
     stream = DataStream()

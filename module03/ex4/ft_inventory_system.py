@@ -16,7 +16,9 @@ def total(inventory: list) -> int:
 
 
 def percentage(unit: int, total: int) -> float:
-    return (round((unit * 100) / total, 2))
+    if total != 0:
+        return (round((unit * 100) / total, 2))
+    return 0
 
 
 def maximum(inventory: dict) -> tuple:
