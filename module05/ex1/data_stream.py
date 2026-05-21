@@ -8,11 +8,10 @@ class Invalid(Exception):
 
 
 class EmptyError(Exception):
-    pass
+    pass    
 
 
 class DataProcessor(ABC):
-
     def __init__(self):
         self.stock = []
 
@@ -31,7 +30,7 @@ class DataProcessor(ABC):
 
 
 class NumericProcessor(DataProcessor):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.name = "numeric_processor"
 
@@ -40,9 +39,7 @@ class NumericProcessor(DataProcessor):
 
         if isinstance(data, int) or isinstance(data, float):
             check = True
-        elif all(isinstance(x, int) 
-                 or isinstance(x, float) 
-                 for x in data):
+        elif isinstance(data, list) and all(isinstance(x, (int, float)) for x in data):
             check = True
         
         return check
@@ -53,18 +50,20 @@ class NumericProcessor(DataProcessor):
             if not self.validate(data):
                 raise Invalid("Improper numeric data")
             
+
             if isinstance(data, list):
                 for x in data:
-                    self.stock.append(str(x))
-            elif isinstance(data, int):
-                self.stock.append(str(data))
 
+                    self.stock.append(str(x))
+            else:
+                self.stock.append(str(data))
+    
         except Invalid as e:
             print(" Got exception:", e)
 
 
 class TextProcessor(DataProcessor):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.name = "text_processor"
 
@@ -95,9 +94,11 @@ class TextProcessor(DataProcessor):
 
 
 class LogProcessor(DataProcessor):
-    def __init__(self):
+
+    def __init__(self) -> None:
         super().__init__()
         self.name = "log_processor"
+
 
     def validate(self, data):
         check = False
@@ -105,10 +106,10 @@ class LogProcessor(DataProcessor):
         if isinstance(data, dict) and len(data) == 2:
             if set(data.keys()) == {"log_level", "log_message"}:
                 check = True
-        elif all(isinstance(x, dict) and len(x) == 2 for x in data):
+        elif isinstance(data, list) and all(isinstance(x, dict) and len(x) == 2 for x in data):
             for x in data:
-                if all(isinstance(key, str)
-                       and key in ["log_level", "log_message"]
+                if all(isinstance(key, str) 
+                       and key in ["log_level", "log_message"] 
                        for key in x.keys()):
                     check = True
                 else:
@@ -120,9 +121,10 @@ class LogProcessor(DataProcessor):
         try:
             if not self.validate(data):
                 raise Invalid("Improper {key:value} data")
+            
 
             if isinstance(data, dict):
-                self.stock.append([data["log_level"] + ": " + data["log_message"]])
+                self.stock.append(data["log_level"] + ": " + data["log_message"])
             else:
                 for x in data:
                     result = x["log_level"] + ": " + x["log_message"]
@@ -162,12 +164,12 @@ class DataStream:
                 for proc in self.proc:
                     if proc.validate(data):
                         proc.ingest(data)
-                        if proc.name == "numeric_processor":
-                            self.stat.num += len(data)
-                        if proc.name == "text_processor":
-                            self.stat.str += len(data)
-                        if proc.name == "log_processor":
-                            self.stat.log += len(data)
+                        # if proc.name == "numeric_processor":
+                        #     self.stat.num += len(data)
+                        # if proc.name == "text_processor":
+                        #     self.stat.str += len(data)
+                        # if proc.name == "log_processor":
+                        #     self.stat.log += len(data)
                         check = True
                 if not check:
                         print("DataStream error -  Can't process element in stream: ", data)
