@@ -12,8 +12,8 @@ class EmptyError(Exception):
 
 
 class DataProcessor(ABC):
-    def __init__(self):
-        self.stock = []
+    def __init__(self) -> None:
+        self.stock: list[Any] = []
 
     @abstractmethod
     def validate(self, data: Any) -> bool:
@@ -25,8 +25,7 @@ class DataProcessor(ABC):
 
 
     def output(self) -> tuple[int, str]:
-        if not self.stock == []:
-            return self.stock.pop(0)
+        return tuple(self.stock.pop(0))
 
 
 class NumericProcessor(DataProcessor):
@@ -100,7 +99,7 @@ class LogProcessor(DataProcessor):
         self.name = "log_processor"
 
 
-    def validate(self, data):
+    def validate(self, data: Any) -> bool:
         check = False
 
         if isinstance(data, dict) and len(data) == 2:
@@ -117,7 +116,7 @@ class LogProcessor(DataProcessor):
 
         return check
 
-    def ingest(self, data: dict | list[dict]) -> None:
+    def ingest(self, data: dict[str, str] | list[dict]) -> None:
         try:
             if not self.validate(data):
                 raise Invalid("Improper {key:value} data")
@@ -137,15 +136,11 @@ class LogProcessor(DataProcessor):
 
 class DataStream:
     class Statistics:
-        def __init__(self):
+        def __init__(self) -> None:
             self.num = 0
             self.str = 0
             self.log = 0
 
-        def show(self):
-            print(self.num)
-            print(self.str)
-            print(self.log)
 
     def __init__(self) -> None:
         self.stat = self.Statistics()

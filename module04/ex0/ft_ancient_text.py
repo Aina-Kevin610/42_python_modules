@@ -9,12 +9,12 @@ class UsageError(Exception):
 
 
 def main() -> None:
-    file: IO[str] = None
+    file: typing.IO[str] = None
     try:
         if len(sys.argv) != 2:
             raise UsageError("ft_ancient_text.py <file>")
         print(f"Accessing file '{sys.argv[1]}'")
-        file: IO[str] = open(sys.argv[1], "r")
+        file = open(sys.argv[1], "r")
         print("---\n")
         print(file.read())
         print("\n---")

@@ -7,7 +7,7 @@
 #   By: airandri <airandri@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/03/30 22:28:57 by airandri            #+#    #+#            #
-#   Updated: 2026/04/01 07:41:41 by airandri           ###   ########.fr      #
+#   Updated: 2026/05/21 13:16:56 by airandri           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -59,4 +59,5 @@ if __name__ == "__main__":
     rose.set_age(-30)
     print("\n")
     print("Current state: ", end="")
+    
     rose.show()

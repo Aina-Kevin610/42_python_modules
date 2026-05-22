@@ -9,7 +9,7 @@ class UsageError(Exception):
 
 
 def main() -> None:
-    file: IO[str] = None
+    file: typing.IO[str] = None
     try:
         if len(sys.argv) != 2:
             raise UsageError("ft_ancient_text.py <file>")
