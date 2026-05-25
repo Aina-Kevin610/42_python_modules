@@ -37,7 +37,7 @@ class NumericProcessor(DataProcessor):
                  or isinstance(x, float) 
                  for x in data):
             check = True
-        
+
         return check
 
 
@@ -45,7 +45,7 @@ class NumericProcessor(DataProcessor):
         try:
             if not self.validate(data):
                 raise Invalid("Improper numeric data")
-            
+
             print(f" Processing data: {data}")
 
             if isinstance(data, list):
@@ -54,7 +54,7 @@ class NumericProcessor(DataProcessor):
                     self.stock.append(str(x))
             else:
                 self.stock.append(str(data))
-    
+
         except Invalid as e:
             print(" Got exception:", e)
 
@@ -70,12 +70,12 @@ class TextProcessor(DataProcessor):
             check = True
 
         return check
-    
+
     def ingest(self, data: str | list[str]) -> None:
         try:
             if not self.validate(data):
                 raise Invalid("Improper string data")
-            
+
             print(f" Processing data: {data}")
 
             if isinstance(data, list):
@@ -110,7 +110,7 @@ class LogProcessor(DataProcessor):
         try:
             if not self.validate(data):
                 raise Invalid("Improper {key:value} data")
-            
+
             print(" processing data ", data)
 
             if isinstance(data, dict):
