@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 
-def secure_archive(filename, mode="read", content=None):
+def secure_archive(filename: str,
+                   mode: str = "read",
+                   content: str = ""
+                   ) -> tuple[bool, str]:
     if mode == "write":
         try:
             with open(filename, "w") as f:
@@ -9,12 +12,13 @@ def secure_archive(filename, mode="read", content=None):
             return (True, "Content successfully written to file")
         except Exception as e:
             return (False, str(e))
-    else:
+    elif mode == "read":
         try:
             with open(filename, "r") as f:
                 return (True, f.read())
         except Exception as e:
             return (False, str(e))
+    return (False, "unknown action")
 
 
 if __name__ == "__main__":

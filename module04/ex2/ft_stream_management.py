@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import sys
-import typing
 
 
 class UsageError(Exception):
@@ -9,7 +8,7 @@ class UsageError(Exception):
 
 
 def main() -> None:
-    file: typing.IO[str] = None
+    file = None
     try:
         if len(sys.argv) != 2:
             raise UsageError("ft_ancient_text.py <file>")
@@ -46,14 +45,24 @@ def main() -> None:
         sys.stderr.write(f"[STDERR] Error opening file '{sys.argv[1]}': {e}")
     except PermissionError as e:
         sys.stderr.write(f"[STDERR] Error opening file '{sys.argv[1]}': {e}")
-    except EOFError as e:
+    except EOFError:
         sys.stderr.write("[STDERR] Programm interupted")
     except Exception as e:
         sys.stderr.write(f"[STDERR] Programm interupted {e}")
+    except IsADirectoryError:
+        print(sys.argv[1], " is a directory")
     finally:
-        if not file is None:
+        if file is not None:
             file.close()
+
 
 if __name__ == "__main__":
     print("=== Cyber Archives Recovery & Preservation ===")
-    main()
+    try:
+        main()
+    except Exception:
+        print("Unknown error")
+    except BaseException:
+        print("Unknown error")
+    except RuntimeError:
+        print("Unknown error")

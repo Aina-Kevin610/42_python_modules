@@ -10,6 +10,7 @@ class Invalid(Exception):
 class DataProcessor(ABC):
     def __init__(self) -> None:
         self.stock: list[str] = []
+        self.process_count = 0
 
     @abstractmethod
     def validate(self, data: Any) -> bool:
@@ -50,10 +51,11 @@ class NumericProcessor(DataProcessor):
 
             if isinstance(data, list):
                 for x in data:
-
-                    self.stock.append(str(x))
+                    self.stock.append((self.process_count, str(x)))
+                    self.process_count += 1
             else:
-                self.stock.append(str(data))
+                self.stock.append((self.process_count, str(data)))
+                self.process_count += 1
     
         except Invalid as e:
             print(" Got exception:", e)
@@ -80,9 +82,11 @@ class TextProcessor(DataProcessor):
 
             if isinstance(data, list):
                 for x in data:
-                    self.stock.append(x)
+                    self.stock.append((self.process_count, x))
+                    self.process_count += 1
             else:
-                self.stock.append(data)
+                self.stock.append((self.process_count, data))
+                self.process_count += 1
 
         except Invalid as e:
             print("Got exception: ", e)
@@ -114,11 +118,13 @@ class LogProcessor(DataProcessor):
             print(" processing data ", data)
 
             if isinstance(data, dict):
-                self.stock.append([data["log_level"] + ": " + data["log_message"]])
+                self.stock.append((self.process_count, [data["log_level"] + ": " + data["log_message"]]))
+                self.process_count += 1
             else:
                 for x in data:
                     result = x["log_level"] + ": " + x["log_message"]
-                    self.stock.append(result)
+                    self.stock.append((self.process_count, result))
+                    self.process_count += 1
 
         except Invalid as e:
             print(" Got exception: ", e)
@@ -128,7 +134,8 @@ def main() -> None:
     print("\nTesting Numeric Processor...")
     num_proc = NumericProcessor()
     print(f" Trying to validate input '42': {num_proc.validate(42)}")
-    print(f" Trying to validate input 'Hello': {num_proc.validate("Hello")}")
+    str = "Hello"
+    print(f" Trying to validate input 'Hello': {num_proc.validate(str)}")
     print(" Test invalid ingestion of string 'foo' without prior validation:")
     num_proc.ingest([1, 2, 3, 4, 5])
     print(" Extracting 3 values...")
@@ -146,7 +153,7 @@ def main() -> None:
 
     print("\nTesting Log Processor...")
     log_proc = LogProcessor()
-    print(f" Trying to validate input 'Hello': {log_proc.validate("hello")}")
+    print(f" Trying to validate input 'Hello': {log_proc.validate(str)}")
     log_proc.ingest([{'log_level': 'NOTICE', 
                       'log_message': 'Connection to server'}, 
                      {'log_level': 'ERROR', 
