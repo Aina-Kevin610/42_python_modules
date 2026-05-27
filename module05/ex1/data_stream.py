@@ -14,7 +14,7 @@ class EmptyError(Exception):
 
 class DataProcessor(ABC):
     def __init__(self) -> None:
-        self.stock: list[Any] = []
+        self.stock: list[tuple[int, str]] = []
         self.process_count = 0
         self.name = ""
 
@@ -30,7 +30,8 @@ class DataProcessor(ABC):
         try:
             return self.stock.pop(0)
         except Exception:
-            pass
+            return (-1, "")
+
 
 class NumericProcessor(DataProcessor):
     def __init__(self) -> None:

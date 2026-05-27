@@ -10,7 +10,7 @@ class Invalid(Exception):
 
 class DataProcessor(ABC):
     def __init__(self) -> None:
-        self.stock: list[Any] = []
+        self.stock: list[tuple[int, str]] = []
         self.process_count = 0
 
     @abstractmethod
@@ -25,8 +25,8 @@ class DataProcessor(ABC):
         try:
             output = self.stock.pop(0)
             return output
-        except Exception as e:
-            pass
+        except Exception:
+            return (-1, "")
 
 
 class NumericProcessor(DataProcessor):
@@ -116,7 +116,6 @@ class TextProcessor(DataProcessor):
                             x,
                         )
                     )
-                    
 
                     self.process_count += 1
 
@@ -177,18 +176,8 @@ class LogProcessor(DataProcessor):
             print(" processing data ", data)
 
             if isinstance(data, dict):
-                self.stock.append(
-                    str(
-                        (
-                            self.process_count,
-                            [
-                                data["log_level"]
-                                + ": "
-                                + data["log_message"]
-                            ],
-                        )
-                    )
-                )
+                result: str = data["log_level"] + ": " + data["log_message"]
+                self.stock.append((self.process_count, result))
 
                 self.process_count += 1
 

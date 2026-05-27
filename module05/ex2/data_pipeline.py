@@ -30,7 +30,7 @@ class DataProcessor(ABC):
         try:
             return self.stock.pop(0)
         except Exception:
-            pass
+            return (-1, "")
 
 
 class NumericProcessor(DataProcessor):
