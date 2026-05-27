@@ -22,7 +22,11 @@ class DataProcessor(ABC):
         raise NotImplementedError
 
     def output(self) -> tuple[int, str]:
-        return (self.process_count, self.stock.pop(0))
+        try:
+            output = self.stock.pop(0)
+            return output
+        except Exception as e:
+            pass
 
 
 class NumericProcessor(DataProcessor):
@@ -55,24 +59,20 @@ class NumericProcessor(DataProcessor):
             if isinstance(data, list):
                 for x in data:
                     self.stock.append(
-                        str(
                             (
                                 self.process_count,
                                 str(x),
                             )
-                        )
                     )
 
                     self.process_count += 1
 
             else:
                 self.stock.append(
-                    str(
                         (
                             self.process_count,
                             str(data),
                         )
-                    )
                 )
 
                 self.process_count += 1
@@ -111,26 +111,18 @@ class TextProcessor(DataProcessor):
             if isinstance(data, list):
                 for x in data:
                     self.stock.append(
-                        str(
-                            (
-                                self.process_count,
-                                x,
-                            )
+                        (
+                            self.process_count,
+                            x,
                         )
                     )
+                    
 
                     self.process_count += 1
 
             else:
-                self.stock.append(
-                    str(
-                        (
-                            self.process_count,
-                            data,
-                        )
-                    )
-                )
-
+                self.stock.append((self.process_count,
+                                   data))
                 self.process_count += 1
 
         except Invalid as e:
@@ -209,12 +201,10 @@ class LogProcessor(DataProcessor):
                     )
 
                     self.stock.append(
-                        str(
                             (
                                 self.process_count,
                                 result,
                             )
-                        )
                     )
 
                     self.process_count += 1
@@ -254,7 +244,7 @@ def main() -> None:
     for i in range(3):
         print(
             f" Numeric value {i}: "
-            f"{num_proc.output()}"
+            f"{num_proc.output()[1]}"
         )
 
     print("\nTesting Text Processor...")
@@ -275,7 +265,7 @@ def main() -> None:
     for i in range(1):
         print(
             f" Text value {i}: "
-            f"{str_proc.output()}"
+            f"{str_proc.output()[1]}"
         )
 
     print("\nTesting Log Processor...")
@@ -308,7 +298,7 @@ def main() -> None:
     for i in range(2):
         print(
             f" Log entry {i}: "
-            f"{log_proc.output()}"
+            f"{log_proc.output()[1]}"
         )
 
 
