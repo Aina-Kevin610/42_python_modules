@@ -27,8 +27,10 @@ class DataProcessor(ABC):
         raise NotImplementedError
 
     def output(self) -> tuple[int, str]:
-        return (self.process_count, self.stock.pop(0))
-
+        try:
+            return self.stock.pop(0)
+        except Exception:
+            pass
 
 class NumericProcessor(DataProcessor):
     def __init__(self) -> None:
@@ -369,4 +371,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     print("=== Code Nexus - Data Stream ===")
-    main()
+    try:
+        main()
+    except Exception as e:
+        print("Error - ", e)

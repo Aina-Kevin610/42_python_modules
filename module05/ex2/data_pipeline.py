@@ -27,7 +27,10 @@ class DataProcessor(ABC):
         raise NotImplementedError
 
     def output(self) -> tuple[int, str]:
-        return self.stock.pop(0)
+        try:
+            return self.stock.pop(0)
+        except Exception:
+            pass
 
 
 class NumericProcessor(DataProcessor):
@@ -238,11 +241,10 @@ class DataStream:
         except EmptyError as e:
             print(e)
 
-    def output_pipeline(
-        self,
-        nb: int,
-        plugin: ExportPlugin,
-    ) -> None:
+    def output_pipeline(self,
+                        nb: int,
+                        plugin: ExportPlugin) -> None:
+
         for process in self.proc:
             processed_output: list[tuple[int, str]] = []
 
@@ -387,4 +389,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     print("=== Code Nexus - Data Pipeline ===")
-    main()
+    try:
+        main()
+    except Exception as e:
+        print("Error - ", e)
