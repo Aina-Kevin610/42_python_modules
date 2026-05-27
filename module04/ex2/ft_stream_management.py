@@ -58,6 +58,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     print("=== Cyber Archives Recovery & Preservation ===")
+
     try:
         main()
     except Exception:
