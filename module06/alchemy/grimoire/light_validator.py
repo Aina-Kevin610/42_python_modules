@@ -1,13 +1,5 @@
-#!/usr/bin/env python3
-
-
 def validate_ingredients(ingredients: str) -> str:
-    from .light_spellbook import light_spellbook_allowed_ingredients
-
-    allowed_ingredient: list[str] = (
-        light_spellbook.light_spellbook_allowed_ingredients()
-    )
-    if ingredients in allowed_ingredient:
-        return f"{ingredients} - VALID"
-    else:
-        return f"{ingredients} - INVALID"
+    from .light_spellbook import light_spell_allowed_ingredients
+    allowed: list[str] = light_spell_allowed_ingredients()
+    valid: bool = any(a.lower() in ingredients.lower() for a in allowed)
+    return f"{ingredients} - {'VALID' if valid else 'INVALID'}"

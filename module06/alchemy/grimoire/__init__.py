@@ -1,2 +1,0 @@
-from .light_spellbook import light_spellbook_record
-from .dark_spellbook import dark_spellbook_record
