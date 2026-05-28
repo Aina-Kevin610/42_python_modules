@@ -27,6 +27,12 @@ class Plant:
     def age_(self) -> None:
         self._age += 1
 
+'''
+class neste:
+    def __init__(self):
+        pass
+'''<F11>
+
 
 class Flower(Plant):
     def __init__(self, name: str, height: float,

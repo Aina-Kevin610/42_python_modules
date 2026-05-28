@@ -12,12 +12,12 @@ def total(inventory: list[int]) -> int:
     for item in inventory:
         item = int(item)
         res += item
-    return (res)
+    return res
 
 
 def percentage(unit: int, tot: int) -> float:
     if tot != 0:
-        return (round((unit * 100) / tot, 2))
+        return round((unit * 100) / tot, 2)
     return 0.0
 
 
@@ -41,9 +41,9 @@ def minimum(inventory: dict[str, int]) -> tuple[int, str]:
     return (max_value, max_key)
 
 
-def uptade_inventory(inventory: dict[str, int],
-                     new_key: str,
-                     new_value: int) -> dict[str, int]:
+def uptade_inventory(
+    inventory: dict[str, int], new_key: str, new_value: int
+) -> dict[str, int]:
     inventory.update({new_key: new_value})
     return inventory
 
@@ -77,15 +77,15 @@ def main() -> None:
         print(f"Total qantity of the {len(inventory_key)} items: {totals}")
         i = 0
         while i < len(inventory_key):
-            print(f"Item {inventory_key[i]} "
-                  f"represents {percentage(int(inventory_value[i]), totals)}%")
+            print(
+                f"Item {inventory_key[i]} "
+                f"represents {percentage(int(inventory_value[i]), totals)}%"
+            )
             i += 1
         max_value = maximum(item_dict)
         min_value = minimum(item_dict)
-        print(f"Item most abundant: {max_value[1]} "
-              f"with quantity {max_value[0]}")
-        print(f"Item least abundant: {min_value[1]} "
-              f"with quantity {min_value[0]}")
+        print(f"Item most abundant: {max_value[1]} " f"with quantity {max_value[0]}")
+        print(f"Item least abundant: {min_value[1]} " f"with quantity {min_value[0]}")
         item_dict = uptade_inventory(item_dict, "magic_item", 1)
         print("Updated inventory: ", item_dict)
     except InvalidParams as e:

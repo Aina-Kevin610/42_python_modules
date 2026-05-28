@@ -2,22 +2,21 @@
 
 import random
 
-
 all_achievements: list[str] = [
-    'Crafting Genius',
-    'Strategist',
-    'World Savior',
-    'Speed Runner',
-    'Survivor',
-    'Master Explorer',
-    'Treasure Hunter',
-    'Unstoppable',
-    'First Steps',
-    'Collector Supreme',
-    'Sharp Mind',
-    'Boss Slayer',
-    'Untouchable',
-    'Hidden Path Finder'
+    "Crafting Genius",
+    "Strategist",
+    "World Savior",
+    "Speed Runner",
+    "Survivor",
+    "Master Explorer",
+    "Treasure Hunter",
+    "Unstoppable",
+    "First Steps",
+    "Collector Supreme",
+    "Sharp Mind",
+    "Boss Slayer",
+    "Untouchable",
+    "Hidden Path Finder",
 ]
 
 
@@ -30,7 +29,7 @@ class Player:
 def gen_player_achievements() -> set[str]:
     nb = random.randint(1, 14)
     achievement = random.sample(all_achievements, nb)
-    return (set(achievement))
+    return set(achievement)
 
 
 def main() -> None:
@@ -43,31 +42,31 @@ def main() -> None:
     print("Player Bob: ", bob.achievement)
     print("Player Charlie: ", charlie.achievement)
     print("Player Dylan: ", dylan.achievement)
-    union = alice.achievement.union(bob.achievement,
-                                    charlie.achievement,
-                                    dylan.achievement)
+    union = alice.achievement.union(
+        bob.achievement, charlie.achievement, dylan.achievement
+    )
 
     print("\nAll distinct achievements: ", union)
-    common = alice.achievement.intersection(bob.achievement,
-                                            charlie.achievement,
-                                            dylan.achievement)
+    common = alice.achievement.intersection(
+        bob.achievement, charlie.achievement, dylan.achievement
+    )
 
     print("\nCommon achievements: ", common)
-    only = alice.achievement.difference(bob.achievement,
-                                        charlie.achievement,
-                                        dylan.achievement)
+    only = alice.achievement.difference(
+        bob.achievement, charlie.achievement, dylan.achievement
+    )
     print("\nOnly Alice has:", only)
-    only = bob.achievement.difference(alice.achievement,
-                                      charlie.achievement,
-                                      dylan.achievement)
+    only = bob.achievement.difference(
+        alice.achievement, charlie.achievement, dylan.achievement
+    )
     print("Only Bob has:", only)
-    only = charlie.achievement.difference(bob.achievement,
-                                          alice.achievement,
-                                          dylan.achievement)
+    only = charlie.achievement.difference(
+        bob.achievement, alice.achievement, dylan.achievement
+    )
     print("Only Charlie has:", only)
-    only = dylan.achievement.difference(bob.achievement,
-                                        charlie.achievement,
-                                        alice.achievement)
+    only = dylan.achievement.difference(
+        bob.achievement, charlie.achievement, alice.achievement
+    )
     print("Only Dylan has:", only)
     missing = set(all_achievements).difference(alice.achievement)
     print("\nAlice is missing: ", missing)

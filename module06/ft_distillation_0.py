@@ -1,6 +1,7 @@
 from alchemy.potion import healing_potion, strength_potion
 
 if __name__ == "__main__":
-    print(healing_potion())
+    print("=== Distillation 0 ===")
+    print("Testing healing potion: ", healing_potion())
+    print("Testing strength potion: ", strength_potion())
     print()
-    print(strength_potion())

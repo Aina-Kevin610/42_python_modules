@@ -30,14 +30,12 @@ def error_handler(row_scores: list[str], params: int) -> list[int]:
             print(m)
         except ValueError:
             print(f"Invalid parameter: '{scores}'")
-    return (result)
+    return result
 
 
 def main() -> None:
     print("=== Player Score Analytics ===")
-    row_scores: list[str] = [score
-                             for score in sys.argv
-                             if score != sys.argv[0]]
+    row_scores: list[str] = [score for score in sys.argv if score != sys.argv[0]]
     scores: list[int] = error_handler(row_scores, len(sys.argv))
     try:
         Average = sum(scores) / len(scores)

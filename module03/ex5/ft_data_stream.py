@@ -5,29 +5,15 @@ import random
 
 
 def gen_event() -> typing.Generator[tuple[str, str], None, None]:
-    players = [
-            "bob",
-            "alice",
-            "dylan",
-            "charlie"
-            ]
+    players = ["bob", "alice", "dylan", "charlie"]
 
-    actions = ['run',
-               'eat',
-               'sleep',
-               'grab',
-               'move',
-               'climb',
-               'swim',
-               'release',
-               'use'
-               ]
+    actions = ["run", "eat", "sleep", "grab", "move", "climb", "swim", "release", "use"]
     yield (random.choice(players), random.choice(actions))
 
 
 def consume_event(
-        events: list[tuple[str, str]]
-        ) -> typing.Generator[list[tuple[str, str]], None, None]:
+    events: list[tuple[str, str]],
+) -> typing.Generator[list[tuple[str, str]], None, None]:
     while events:
         idx = random.randrange(len(events))
         choice = events[idx]

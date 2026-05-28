@@ -19,7 +19,7 @@ def is_invalid(pos: list[str]) -> None:
 def get_player_pos() -> tuple[float, float, float]:
     mess: str = "Enter new coordinates as floats in format 'x,y,z': "
     while True:
-        pos: list[str] = input(mess).split(',')
+        pos: list[str] = input(mess).split(",")
         element: str = ""
         try:
             is_invalid(pos)
@@ -29,8 +29,10 @@ def get_player_pos() -> tuple[float, float, float]:
         except InvalidArgError as e:
             print(e)
         except ValueError:
-            print(f"Error on parameter '{element}': could",
-                  f"not convert string to float: {element}")
+            print(
+                f"Error on parameter '{element}': could",
+                f"not convert string to float: {element}",
+            )
 
 
 def main() -> None:
@@ -50,7 +52,7 @@ def main() -> None:
     x: float = float(pos_2[0])
     y: float = float(pos_2[1])
     z: float = float(pos_2[2])
-    dis_1: float = math.sqrt((a - x)**2 + (b - y)**2 + (c - z)**2)
+    dis_1: float = math.sqrt((a - x) ** 2 + (b - y) ** 2 + (c - z) ** 2)
     print(f"Distance between the 2 sets of coordinates: {round(dis_1, 4)}")
 
 
