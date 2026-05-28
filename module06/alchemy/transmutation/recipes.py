@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from ..elements import create_air
-from ..potion import strength_potion
+from ..potions import strength_potion
 from elements import create_fire
 
 
