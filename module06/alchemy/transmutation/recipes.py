@@ -7,9 +7,8 @@ from elements import create_fire
 
 def lead_to_gold() -> str:
     return (
-        f"Recipe transmuting "
-        f"Lead to Gold: "
-        f"brew '[{create_air()}]' "
-        f"and '[{strength_potion()}]' "
-        f"mixed with '[{create_fire()}]' "
+        f"Recipe transmuting Lead to Gold: "
+        f"brew '{create_air()}'"
+        f" and '{strength_potion()}'"
+        f" mixed with '{create_fire()}'"
     )
