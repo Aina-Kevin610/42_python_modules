@@ -19,6 +19,7 @@ class Creature(ABC):
 
 class Flameling(Creature):
     def __init__(self, name: str = "Flameling", types: str = "Fire") -> None:
+
         super().__init__(name, types)
 
     def attack(self) -> str:
@@ -27,6 +28,7 @@ class Flameling(Creature):
 
 class Pyrodon(Creature):
     def __init__(self, name: str = "Pyrodon", types: str = "Flying/Fire") -> None:
+
         super().__init__(name, types)
 
     def attack(self) -> str:
