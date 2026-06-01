@@ -24,8 +24,17 @@ class TransformCapability(ABC):
 
 
 class Sproutling(Creature, HealCapability):
-    def __init__(self, name: str, types: str) -> None:
-        super.__init__(name, types)
+    def __init__(
+            self,
+             name: str = "Sproutling",
+             types: str = "Grass"
+    ) -> None:
+        
+        Creature.__init__(self, name, types)
+
 
     def heal(self) -> str:
         return f"{self.name} is healing himself!"
+
+    def attack(self) -> str:
+        return f"{self.name} uses Vine Whip!"
