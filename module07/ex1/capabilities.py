@@ -62,8 +62,8 @@ class Shiftling(Creature, TransformCapability):
             types: str = "Normal"
     ) -> None:
 
-        Creature.__init__(name, types)
-        TransformCapability.__init__()
+        Creature.__init__(self, name, types)
+        TransformCapability.__init__(self)
 
     def transform(self) -> str:
         return f"{self.name} shifts into a sharper form!"
@@ -85,8 +85,8 @@ class Morphagon(Creature, TransformCapability):
             types: str = "Normal/Dragon"
     ) -> None:
 
-        Creature.__init__(name, types)
-        TransformCapability.__init__()
+        Creature.__init__(self, name, types)
+        TransformCapability.__init__(self)
 
     def transform(self) -> str:
         return f"{self.name} morphs into a dragonic battle form!"

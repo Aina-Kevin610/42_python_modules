@@ -2,7 +2,7 @@
 
 
 from ex1 import HealingCreatureFactory
-
+from ex1 import TransformCreatureFactory
 
 if __name__ == "__main__":
     healing = HealingCreatureFactory()
@@ -18,3 +18,21 @@ if __name__ == "__main__":
     print(bloomelle.describe())
     print(bloomelle.attack())
     print(bloomelle.heal())
+
+    transform = TransformCreatureFactory()
+    print("\nTesting Creature with transform capability")
+    shiftling = transform.create_base()
+    print(" base:")
+    print(shiftling.describe())
+    print(shiftling.attack())
+    shiftling.transforming = True
+    print(shiftling.attack())
+    print(shiftling.revert())
+
+    print(" evolved:")
+    morphagon = transform.create_evolved()
+    print(morphagon.describe())
+    print(morphagon.attack())
+    morphagon.transforming = True
+    print(morphagon.attack())
+    print(morphagon.revert())

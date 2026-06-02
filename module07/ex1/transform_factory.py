@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
+from ex0.factory import CreatureFactory
+from ex1.capabilities import Shiftling, Morphagon
 
-from ex0 import CreatureFactory
-from ex1 import Shiftling, Morphagon
 
 class TransformCreatureFactory(CreatureFactory):
     def create_base(self) -> Shiftling:

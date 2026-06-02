@@ -10,4 +10,3 @@ class HealingCreatureFactory(CreatureFactory):
 
     def create_evolved(self) -> Bloomelle:
         return Bloomelle()
-b.describe
