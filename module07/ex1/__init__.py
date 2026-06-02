@@ -1,3 +1,3 @@
 #!/usr/bin/env python3
 
-from .capabilities import Sproutling
+from .healing_factory import HealingCreatureFactory

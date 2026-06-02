@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from _typeshed import ConvertibleToFloat
 from abc import ABC, abstractmethod
 from ex0.creature import Creature
 
@@ -37,7 +36,7 @@ class Sproutling(Creature, HealCapability):
 
 
 class Bloomelle(Creature, HealCapability):
-    def __init__(self, name: str, types: str) -> None:
+    def __init__(self, name: str = "Bloomelle", types: str = "Grass/Fairy") -> None:
 
         Creature.__init__(self, name, types)
 
