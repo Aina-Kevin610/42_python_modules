@@ -5,8 +5,9 @@ from .capabilities import Sproutling, Bloomelle
 
 
 class HealingCreatureFactory(CreatureFactory):
-    def create_base(self):
+    def create_base(self) -> Sproutling:
         return Sproutling()
-    
-    def create_evolved(self):
+
+    def create_evolved(self) -> Bloomelle:
         return Bloomelle()
+b.describe

@@ -27,7 +27,11 @@ class Flameling(Creature):
 
 
 class Pyrodon(Creature):
-    def __init__(self, name: str = "Pyrodon", types: str = "Flying/Fire") -> None:
+    def __init__(
+            self,
+            name: str = "Pyrodon",
+            types: str = "Flying/Fire"
+    ) -> None:
 
         super().__init__(name, types)
 

@@ -24,7 +24,11 @@ class TransformCapability(ABC):
 
 
 class Sproutling(Creature, HealCapability):
-    def __init__(self, name: str = "Sproutling", types: str = "Grass") -> None:
+    def __init__(
+            self,
+            name: str = "Sproutling",
+            types: str = "Grass"
+    ) -> None:
 
         Creature.__init__(self, name, types)
 
@@ -36,12 +40,19 @@ class Sproutling(Creature, HealCapability):
 
 
 class Bloomelle(Creature, HealCapability):
-    def __init__(self, name: str = "Bloomelle", types: str = "Grass/Fairy") -> None:
+    def __init__(
+            self,
+            name: str = "Bloomelle",
+            types: str = "Grass/Fairy"
+    ) -> None:
 
         Creature.__init__(self, name, types)
-
+b.describe
     def heal(self) -> str:
         return f"{self.name} heals itself and others for a large amount"
 
     def attack(self) -> str:
         return f"{self.name} uses Petal Dance !"
+
+
+class
