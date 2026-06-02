@@ -47,7 +47,7 @@ class Bloomelle(Creature, HealCapability):
     ) -> None:
 
         Creature.__init__(self, name, types)
-b.describe
+
     def heal(self) -> str:
         return f"{self.name} heals itself and others for a large amount"
 
@@ -55,4 +55,47 @@ b.describe
         return f"{self.name} uses Petal Dance !"
 
 
-class
+class Shiftling(Creature, TransformCapability):
+    def __init__(
+            self,
+            name: str = "Shiftling",
+            types: str = "Normal"
+    ) -> None:
+
+        Creature.__init__(name, types)
+        TransformCapability.__init__()
+
+    def transform(self) -> str:
+        return f"{self.name} shifts into a sharper form!"
+
+    def attack(self) -> str:
+        if self.transforming:
+            return f"{self.name} performs a boosted strike!"
+        else:
+            return f"{self.name} attack normally."
+    
+    def revert(self) -> str:
+        return f"{self.name} return to normal."
+
+
+class Morphagon(Creature, TransformCapability):
+    def __init__(
+            self,
+            name: str = "Morphagon",
+            types: str = "Normal/Dragon"
+    ) -> None:
+
+        Creature.__init__(name, types)
+        TransformCapability.__init__()
+
+    def transform(self) -> str:
+        return f"{self.name} morphs into a dragonic battle form!"
+
+    def attack(self) -> str:
+        if self.transforming:
+            return f"{self.name} unleashes a devastating morph strike!"
+        else:
+            return f"{self.name} attack normally."
+    
+    def revert(self) -> str:
+        return f"{self.name} stabilizes its form."
