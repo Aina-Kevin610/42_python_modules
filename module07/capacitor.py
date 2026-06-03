@@ -25,6 +25,7 @@ if __name__ == "__main__":
     print(" base:")
     print(shiftling.describe())
     print(shiftling.attack())
+
     shiftling.transforming = True
     print(shiftling.attack())
     print(shiftling.revert())
@@ -36,3 +37,5 @@ if __name__ == "__main__":
     morphagon.transforming = True
     print(morphagon.attack())
     print(morphagon.revert())
+
+    #le polycope jose
