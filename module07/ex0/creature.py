@@ -54,9 +54,3 @@ class Torragon(Creature):
     def attack(self) -> str:
         return f"{self.name} uses Hydro Pump!"
 
-
-if __name__ == "__main__":
-    f = Flameling()
-    p = Pyrodon()
-    a = Aquabub()
-    t = Torragon()
