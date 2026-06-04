@@ -12,9 +12,3 @@ def healing_potion() -> str:
 def strength_potion() -> str:
     return (f"Strength potion brewed with '{create_fire()}'"
             f" and '{create_water()}'")
-
-
-if __name__ == "__main__":
-    print(healing_potion())
-    print()
-    print(strength_potion())

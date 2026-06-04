@@ -37,5 +37,3 @@ if __name__ == "__main__":
     morphagon.transforming = True
     print(morphagon.attack())
     print(morphagon.revert())
-
-    #le polycope jose
