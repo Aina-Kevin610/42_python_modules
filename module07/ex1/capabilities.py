@@ -15,11 +15,11 @@ class TransformCapability(ABC):
         self.transforming: bool = False
 
     @abstractmethod
-    def transform(self) -> None:
+    def transform(self) -> str:
         pass
 
     @abstractmethod
-    def revert(self) -> None:
+    def revert(self) -> str:
         pass
 
 
@@ -36,7 +36,7 @@ class Sproutling(Creature, HealCapability):
         return f"{self.name} heals itself for a small amount!"
 
     def attack(self) -> str:
-        return f"{self.name} uses Vine Whip!"
+        return f"{self.name} usess Vine Whip!"
 
 
 class Bloomelle(Creature, HealCapability):
@@ -52,7 +52,7 @@ class Bloomelle(Creature, HealCapability):
         return f"{self.name} heals itself and others for a large amount"
 
     def attack(self) -> str:
-        return f"{self.name} uses Petal Dance !"
+        return f"{self.name} usess Petal Dance !"
 
 
 class Shiftling(Creature, TransformCapability):
@@ -74,7 +74,7 @@ class Shiftling(Creature, TransformCapability):
             return f"{self.name} performs a boosted strike!"
         else:
             return f"{self.name} attack normally."
-    
+
     def revert(self) -> str:
         self.transforming = False
         return f"{self.name} return to normal."
@@ -99,7 +99,7 @@ class Morphagon(Creature, TransformCapability):
             return f"{self.name} unleashes a devastating morph strike!"
         else:
             return f"{self.name} attack normally."
-    
+
     def revert(self) -> str:
         self.transforming = False
         return f"{self.name} stabilizes its form."
