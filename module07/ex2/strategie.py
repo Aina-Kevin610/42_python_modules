@@ -22,21 +22,19 @@ class BattleStrategy(ABC):
 class NormalStrategy(BattleStrategy):
     def is_valid(self, creature: Creature) -> bool:
         return isinstance(creature, Creature)
-    
+
     def act(self, creature: Creature) -> None:
         try:
             if not self.is_valid(creature):
                 raise Invalid("Invalid combinaison!")
-            print(creature.describe())
             print(creature.attack())
-        except Invalid as e:
-            print("Error - ", e)
+        except Invalid:
+            raise ValueError(f"Invalid Creature '{creature.name}' for this normal strategy")
 
 
 class AggressiveStrategy(BattleStrategy):
     def is_valid(self, creature: Creature) -> bool:
         return isinstance(creature, TransformCapability)
-
 
     def act(self, creature: Creature) -> None:
         try:
@@ -45,9 +43,9 @@ class AggressiveStrategy(BattleStrategy):
             print(creature.transform())
             print(creature.attack())
             print(creature.revert())
-        except Invalid as e:
-            print("Error - ", e)
-    
+        except Invalid:
+            raise ValueError(f"Invalid Creature '{creature.name}' for this aggressive strategy")
+
 
 class DefensiveStrategy(BattleStrategy):
     def is_valid(self, creature: Creature) -> bool:
@@ -59,6 +57,5 @@ class DefensiveStrategy(BattleStrategy):
                 raise Invalid("Invalid combinaison!")
             print(creature.attack())
             print(creature.heal())
-        except Invalid as e:
-            print("Error - ", e)
-
+        except Invalid:
+            raise ValueError(f"Invalid Creature '{creature.name}' for this defensive strategy")
