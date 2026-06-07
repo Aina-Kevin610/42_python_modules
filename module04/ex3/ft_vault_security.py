@@ -9,6 +9,8 @@ def secure_archive(filename: str,
         try:
             with open(filename, "w") as f:
                 f.write(content)
+                print(f.closed)
+            print(f.closed)
             return (True, "Content successfully written to file")
         except Exception as e:
             return (False, str(e))
