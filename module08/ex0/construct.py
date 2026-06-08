@@ -38,5 +38,5 @@ else:
 
     print()
 
-    print("WARNING: You're in the global environment!")
-    print("The machines can see everything you install.")
+    print("SUCCESS: You're in an isolated environment!")
+    print("Safe to install packages without affecting")
