@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import os
 import site
 import sys
 
@@ -39,4 +38,6 @@ else:
     print()
 
     print("SUCCESS: You're in an isolated environment!")
-    print("Safe to install packages without affecting")
+    print("Safe to install packages without affecting the global system")
+    print("Package installation path:")
+    print(site.getsitepackages())
