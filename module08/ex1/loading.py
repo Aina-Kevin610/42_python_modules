@@ -1,23 +1,37 @@
 #!/usr/bin/env python3
-import matplotlib.pyplot as plt
 
-xpoints = [10, 20, 30, 40, 50, 60]
-ypoints = [1, 2, 5, 4, 2, 1]
+try:
+    import importlib
+    import requests as rq
+    import numpy as np
+    import pandas as pd
+    import matplotlib.pyplot as plt
+except Exception as e:
+    print("Error - ", e)
 
-plt.title("TEST", loc = 'left')
-plt.xlabel("X axis")
-plt.ylabel("Y axis")
 
-# plt.grid(color = 'blue', linestyle = ':', linewidth = 1)
-# plt.subplot(1, 3, 1)
-# plt.plot(xpoints, ypoints, marker = 'o', linestyle = "dashed")
+if __name__ == "__main__":
+    print("\nLOADING STATUS: Loading programs...\n")
+    print("Checking dependencies:")
+    pkg = {
+        "matplotlib" : "Visualization read", 
+        "pandas" :  "Data manipulation ready",
+        "numpy" : "Numerical computation ready",
+        "requests" : "Network access ready",
+    }
+    try:
+        for module, message in pkg.items():
+            mod = importlib.import_module(module)
+            print(f"[OK] {module} ({mod.__version__}) - {message}")
+    except ModuleNotFoundError as e:
+        print(f"[KO] {mod}) - import error")
 
-# plt.grid(color = 'green', linestyle = "solid", linewidth = 0.1)
-# plt.subplot(1, 3, 2)
-# plt.plot(xpoints, ypoints, marker = 'o', linestyle = "dashed")
+    print("\nAnalyzing Matrix data...")
+    data = np.random.randn(1000, 2)
+    data = pd.DataFrame(data)
+    print(data)
+    plt.plot(data)
+    plt.show()
 
-# plt.grid(color = 'red', linestyle = '--', linewidth = 0.5)
-# plt.subplot(1, 3, 3)
-plt.bar(xpoints, ypoints, width=8)
 
-plt.show()
+    
