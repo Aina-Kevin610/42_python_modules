@@ -5,4 +5,7 @@ description = "Matrix data analysis"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+matplotlib = "^3.11.0"
+numpy = "^2.4.6"
+pandas = "^3.0.3"
 
