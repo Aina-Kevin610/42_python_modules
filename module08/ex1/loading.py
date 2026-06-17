@@ -25,7 +25,6 @@ if __name__ == "__main__":
         print(f"Processing {len(matrix)} data points...")
         pd = importlib.import_module("pandas")
         matrix_data = pd.DataFrame(matrix, columns=["x axe", "y axe"])
-        print(matrix_data)
 
         plt = importlib.import_module("matplotlib.pyplot")
         plt.plot(matrix)
