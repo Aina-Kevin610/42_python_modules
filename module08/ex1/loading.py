@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 
 import importlib
-
+import sys
 
 if __name__ == "__main__":
     print("\nLOADING STATUS: Loading programs...\n")
     print("Checking dependencies:")
 
     pkg = {
-        "matplotlib" : "Visualization read", 
-        "pandas" :  "Data manipulation ready",
-        "numpy" : "Numerical computation ready",
+        "matplotlib": "Visualization read",
+        "pandas": "Data manipulation ready",
+        "numpy": "Numerical computation ready",
     }
-
+    missing = False
     try:
         for module, message in pkg.items():
             mod = importlib.import_module(module)
@@ -35,5 +35,14 @@ if __name__ == "__main__":
         print("Results saved to: matrix_analysis.png")
     except ModuleNotFoundError:
         print(f"[KO] ({module}) - import error")
+        missing = True
     except Exception:
         print("Error")
+
+    if missing:
+        print("\n[ERROR] Missing dependencies detected.")
+        print("To load programs, use one of the following commands:")
+        print("  pip install -r requirements.txt")
+        print("  # OR")
+        print("  poetry install")
+        sys.exit(1)

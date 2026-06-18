@@ -2,6 +2,7 @@
 
 import site
 import sys
+import os
 
 
 if sys.prefix == sys.base_prefix:
@@ -9,7 +10,7 @@ if sys.prefix == sys.base_prefix:
 
     print()
 
-    print("Current python: ", sys.prefix)
+    print("Current python: ", sys.executable)
     print("Virtual Environment: None detected")
 
     print()
@@ -32,12 +33,13 @@ else:
 
     print()
 
-    print("Current python: ", sys.prefix)
-    print("Virtual Environment: None detected")
+    print("Current python: ", sys.executable)
+    print("Virtual Environment:", os.path.basename(sys.prefix))
+    print("Environment Path:", sys.prefix)
 
     print()
 
     print("SUCCESS: You're in an isolated environment!")
     print("Safe to install packages without affecting the global system")
-    print("Package installation path:")
-    print(site.getsitepackages())
+    print("\nPackage installation path:")
+    print(site.getsitepackages()[0])
