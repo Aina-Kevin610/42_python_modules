@@ -3,6 +3,7 @@
 import importlib
 import sys
 
+
 if __name__ == "__main__":
     print("\nLOADING STATUS: Loading programs...\n")
     print("Checking dependencies:")
@@ -13,6 +14,7 @@ if __name__ == "__main__":
         "numpy": "Numerical computation ready",
     }
     missing = False
+    module = ""
     try:
         for module, message in pkg.items():
             mod = importlib.import_module(module)
@@ -27,7 +29,7 @@ if __name__ == "__main__":
         matrix_data = pd.DataFrame(matrix, columns=["x axe", "y axe"])
 
         plt = importlib.import_module("matplotlib.pyplot")
-        plt.plot(matrix)
+        plt.plot(matrix_data)
         print("Generating visualization...")
         plt.savefig("matrix_analysis.png")
 
@@ -43,6 +45,6 @@ if __name__ == "__main__":
         print("\n[ERROR] Missing dependencies detected.")
         print("To load programs, use one of the following commands:")
         print("  pip install -r requirements.txt")
-        print("  # OR")
+        print("  OR")
         print("  poetry install")
         sys.exit(1)
