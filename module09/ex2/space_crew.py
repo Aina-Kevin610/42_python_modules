@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
 
-from pydantic import BaseModel, model_validator, Field
+from pydantic import BaseModel, model_validator, Field, ValidationError
 from enum import Enum
 from datetime import datetime
-
-
-class CheckError(Exception):
-    pass
+from typing import Self
 
 
 class CrewRank(Enum):
@@ -38,66 +35,69 @@ class SpaceMission(BaseModel):
     budget_millions: float = Field(..., ge=1.0, le=10000.0)
 
     @model_validator(mode="after")
-    def validation_rules(self):
+    def validation_rules(self) -> Self:
         if not self.mission_id.startswith("M"):
-            raise CheckError("Mission ID must start with 'M'")
-        
-        if ("commander" or "captain") not in self.crew:
-            raise CheckError("Must have at least one Commander or Captain")
-        
-        if self.duration_days > 365 and not any([crew for crew in self.crew if self.crew.years_experience >= 5]):
-            raise CheckError("Long missions (> 365 days) need 50% experienced crew (5+ years)")
+            raise ValueError("Mission ID must start with 'M'")
 
-        if not all([status for status in self.crew.is_active]):
-            raise CheckError("All crew members must be active")
+        ranks = [m.rank for m in self.crew]
+        if CrewRank.commander not in ranks and CrewRank.captain not in ranks:
+            raise ValueError("Must have at least one Commander or Captain")
+        
+        if self.duration_days > 365:
+            experienced = sum(1 for m in self.crew if m.years_experience >= 5)
+            if experienced / len(self.crew) < 0.5:
+                raise ValueError("Long missions need 50% experienced crew (5+ years)")
+
+        if not all([status.is_active for status in self.crew]):
+            raise ValueError("All crew members must be active")
+        
+        return self
         
 
-if __name__ == "__main__":
-    from datetime import datetime
-    from pydantic import ValidationError
-
+def main() -> None:
     print("Space Mission Crew Validation")
     
     # Creating a valid data...
+
     cmd_sarah = CrewMember(
-        member_id="CREW01",
-        name="Sarah Connor",
-        rank=CrewRank.commander,
-        age=45,
-        specialization="Mission Command",
-        years_experience=15,
-        is_active=True
+        member_id = "CREW01",
+        name = "Sarah Connor",
+        rank = CrewRank.commander,
+        age = 45,
+        specialization = "Mission Command",
+        years_experience = 15,
+        is_active = True
     )
     
     lt_john = CrewMember(
-        member_id="CREW02",
-        name="John Smith",
-        rank=CrewRank.lieutenant,
-        age=32,
-        specialization="Navigation",
-        years_experience=8,
-        is_active=True
+        member_id = "CREW02",
+        name = "John Smith",
+        rank = CrewRank.lieutenant,
+        age = 32,
+        specialization = "Navigation",
+        years_experience = 8,
+        is_active = True
     )
     
     off_alice = CrewMember(
-        member_id="CREW03",
-        name="Alice Johnson",
-        rank=CrewRank.officer,
-        age=28,
-        specialization="Engineering",
-        years_experience=6,
-        is_active=True
+        member_id = "CREW03",
+        name = "Alice Johnson",
+        rank = CrewRank.officer,
+        age = 28,
+        specialization = "Engineering",
+        years_experience = 6,
+        is_active = True
     )
 
     print("=========================================")
     mission_valid = SpaceMission(
-        mission_id="M2024_MARS",
-        mission_name="Mars Colony Establishment",
-        destination="Mars",
-        launch_date=datetime(2026, 6, 19),
-        duration_days=900,
-        crew=[cmd_sarah, lt_john, off_alice],
-        budget_millions=2500.0
+        mission_id = "M2024_MARS",
+        mission_name = "Mars Colony Establishment",
+        destination = "Mars",
+        launch_date = datetime(2026, 6, 19),
+        duration_days = 900,
+        crew = [cmd_sarah, lt_john, off_alice],
+        budget_millions = 2500.0
     )
     
     print("Valid mission created:")
@@ -113,29 +113,35 @@ if __name__ == "__main__":
 
 
     print("=========================================")
-    print("Expected validation error:")
-    
-    cadet_tom = CrewMember(
-        member_id="CREW04",
-        name="Tom Spacey",
-        rank=CrewRank.cadet,
-        age=20,
-        specialization="Systems",
-        years_experience=1,
-        is_active=True
-    )
 
     # Creating an invalid data...
     try:
+        cadet_tom = CrewMember(
+            member_id="CREW04",
+            name="Tom Spacey",
+            rank=CrewRank.cadet,
+            age=20,
+            specialization="Systems",
+            years_experience=1,
+            is_active=True
+        )
+
         mission_invalid = SpaceMission(
             mission_id="M2026_TEST",
             mission_name="Lunar Scouting",
             destination="Moon",
             launch_date=datetime(2026, 8, 1),
             duration_days=30,
-            crew=[cadet_tom, lt_john],
+            crew=[cadet_tom],
             budget_millions=150.0
         )
     except ValidationError as e:
         print("Expected validation error:")
-        print(e)
+        print(e.errors()[0]['msg'])
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception as e:
+        print("Error - ", e)
