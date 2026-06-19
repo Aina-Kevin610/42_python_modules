@@ -41,7 +41,7 @@ def main() -> None:
 
     valid = AlienContact(
         contact_id="AC_2024_001",
-        timestamp="2026-06-18T14:30:00",
+        timestamp=datetime(2026, 6, 18, 14, 30, 0),
         location="Area 51, Nevada",
         contact_type=ContactType.radio,
         signal_strength=8.5,
@@ -65,7 +65,7 @@ def main() -> None:
     try:
         invalid = AlienContact(
             contact_id="AC_2024_002",
-            timestamp="2026-06-18T14:30:00",
+            timestamp=datetime(2026, 6, 18, 14, 30, 0),
             location="Area 51, Nevada",
             contact_type=ContactType.telepathic,
             signal_strength=8.5,
