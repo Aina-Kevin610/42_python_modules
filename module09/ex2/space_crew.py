@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from pytdantic import BaseModel, model_validator, Field
+from pydantic import BaseModel, model_validator, Field
 from enum import Enum
 from datetime import datetime
 
@@ -46,7 +46,7 @@ class SpaceMission(BaseModel):
             raise CheckError("Must have at least one Commander or Captain")
         
         if self.duration_days > 365 and not any([crew for crew in self.crew if self.crew.years_experience >= 5]):
-            raise CheckError("Long missions (> 365 days) need 50\% \experienced crew (5+ years)")
+            raise CheckError("Long missions (> 365 days) need 50% experienced crew (5+ years)")
 
         if not all([status for status in self.crew.is_active]):
             raise CheckError("All crew members must be active")
@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
     print("Space Mission Crew Validation")
     
-    # 1. CRÉATION D'UN ÉQUIPAGE VALIDE
+    # Creating a valid data...
     cmd_sarah = CrewMember(
         member_id="CREW01",
         name="Sarah Connor",
@@ -90,7 +90,7 @@ if __name__ == "__main__":
     )
 
     print("=========================================")
-    mission_valide = SpaceMission(
+    mission_valid = SpaceMission(
         mission_id="M2024_MARS",
         mission_name="Mars Colony Establishment",
         destination="Mars",
@@ -101,14 +101,14 @@ if __name__ == "__main__":
     )
     
     print("Valid mission created:")
-    print(f"Mission: {mission_valide.mission_name}")
-    print(f"ID: {mission_valide.mission_id}")
-    print(f"Destination: {mission_valide.destination}")
-    print(f"Duration: {mission_valide.duration_days} days")
-    print(f"Budget: ${mission_valide.budget_millions}M")
-    print(f"Crew size: {len(mission_valide.crew)}")
+    print(f"Mission: {mission_valid.mission_name}")
+    print(f"ID: {mission_valid.mission_id}")
+    print(f"Destination: {mission_valid.destination}")
+    print(f"Duration: {mission_valid.duration_days} days")
+    print(f"Budget: ${mission_valid.budget_millions}M")
+    print(f"Crew size: {len(mission_valid.crew)}")
     print("Crew members:")
-    for member in mission_valide.crew:
+    for member in mission_valid.crew:
         print(f"- {member.name} ({member.rank.value}) - {member.specialization}")
 
 
@@ -125,8 +125,9 @@ if __name__ == "__main__":
         is_active=True
     )
 
+    # Creating an invalid data...
     try:
-        mission_invalide = SpaceMission(
+        mission_invalid = SpaceMission(
             mission_id="M2026_TEST",
             mission_name="Lunar Scouting",
             destination="Moon",
