@@ -11,7 +11,7 @@ class CheckError(Exception):
 
 class CrewRank(Enum):
     cadet = "cadet"
-    officier = "officier"
+    officer = "officer"
     lieutenant = "lieutenant"
     captain = "captain"
     commander = "commander"
@@ -48,9 +48,93 @@ class SpaceMission(BaseModel):
         if self.duration_days > 365 and not any([crew for crew in self.crew if self.crew.years_experience >= 5]):
             raise CheckError("Long missions (> 365 days) need 50\% \experienced crew (5+ years)")
 
-        if all([status for status in self.crew.is_active]):
+        if not all([status for status in self.crew.is_active]):
             raise CheckError("All crew members must be active")
         
 
 if __name__ == "__main__":
+    from datetime import datetime
+    from pydantic import ValidationError
+
+    print("Space Mission Crew Validation")
     
+    # 1. CRÉATION D'UN ÉQUIPAGE VALIDE
+    cmd_sarah = CrewMember(
+        member_id="CREW01",
+        name="Sarah Connor",
+        rank=CrewRank.commander,
+        age=45,
+        specialization="Mission Command",
+        years_experience=15,
+        is_active=True
+    )
+    
+    lt_john = CrewMember(
+        member_id="CREW02",
+        name="John Smith",
+        rank=CrewRank.lieutenant,
+        age=32,
+        specialization="Navigation",
+        years_experience=8,
+        is_active=True
+    )
+    
+    off_alice = CrewMember(
+        member_id="CREW03",
+        name="Alice Johnson",
+        rank=CrewRank.officer,
+        age=28,
+        specialization="Engineering",
+        years_experience=6,
+        is_active=True
+    )
+
+    print("=========================================")
+    mission_valide = SpaceMission(
+        mission_id="M2024_MARS",
+        mission_name="Mars Colony Establishment",
+        destination="Mars",
+        launch_date=datetime(2026, 6, 19),
+        duration_days=900,
+        crew=[cmd_sarah, lt_john, off_alice],
+        budget_millions=2500.0
+    )
+    
+    print("Valid mission created:")
+    print(f"Mission: {mission_valide.mission_name}")
+    print(f"ID: {mission_valide.mission_id}")
+    print(f"Destination: {mission_valide.destination}")
+    print(f"Duration: {mission_valide.duration_days} days")
+    print(f"Budget: ${mission_valide.budget_millions}M")
+    print(f"Crew size: {len(mission_valide.crew)}")
+    print("Crew members:")
+    for member in mission_valide.crew:
+        print(f"- {member.name} ({member.rank.value}) - {member.specialization}")
+
+
+    print("=========================================")
+    print("Expected validation error:")
+    
+    cadet_tom = CrewMember(
+        member_id="CREW04",
+        name="Tom Spacey",
+        rank=CrewRank.cadet,
+        age=20,
+        specialization="Systems",
+        years_experience=1,
+        is_active=True
+    )
+
+    try:
+        mission_invalide = SpaceMission(
+            mission_id="M2026_TEST",
+            mission_name="Lunar Scouting",
+            destination="Moon",
+            launch_date=datetime(2026, 8, 1),
+            duration_days=30,
+            crew=[cadet_tom, lt_john],
+            budget_millions=150.0
+        )
+    except ValidationError as e:
+        print("Expected validation error:")
+        print(e)
