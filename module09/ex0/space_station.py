@@ -34,7 +34,9 @@ def main() -> None:
     print(f"Crew: {valid.crew_size} people")
     print(f"Power: {valid.power_level}%")
     print(f"Oxygen: {valid.oxygen_level}%")
-    print("Status:", "Operational" if valid.is_operational else "Not Operational")
+    print("Status:", "Operational"
+          if valid.is_operational
+          else "Not Operational")
     print("========================================")
 
     try:
@@ -44,9 +46,10 @@ def main() -> None:
             crew_size=27,
             power_level=85.5,
             oxygen_level=92.3,
-            last_maintenance="2026-06-18T14:30:00",
+            last_maintenance=datetime(2026, 6, 18, 14, 30, 0),
             is_operational=True,
         )
+        print("Name:", invalid.name)
     except ValidationError as e:
         print("Expected validation error:")
         print(e.errors()[0]["msg"])

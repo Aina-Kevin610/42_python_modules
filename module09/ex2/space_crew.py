@@ -42,21 +42,22 @@ class SpaceMission(BaseModel):
         ranks = [m.rank for m in self.crew]
         if CrewRank.commander not in ranks and CrewRank.captain not in ranks:
             raise ValueError("Must have at least one Commander or Captain")
-        
+
         if self.duration_days > 365:
             experienced = sum(1 for m in self.crew if m.years_experience >= 5)
             if experienced / len(self.crew) < 0.5:
-                raise ValueError("Long missions need 50% experienced crew (5+ years)")
+                msg = "Long missions need 50% experienced crew (5+ years)"
+                raise ValueError(msg)
 
         if not all([status.is_active for status in self.crew]):
             raise ValueError("All crew members must be active")
-        
+
         return self
-        
+
 
 def main() -> None:
     print("Space Mission Crew Validation")
-    
+
     # Creating a valid data...
 
     cmd_sarah = CrewMember(
@@ -68,7 +69,7 @@ def main() -> None:
         years_experience = 15,
         is_active = True
     )
-    
+
     lt_john = CrewMember(
         member_id = "CREW02",
         name = "John Smith",
@@ -78,7 +79,7 @@ def main() -> None:
         years_experience = 8,
         is_active = True
     )
-    
+
     off_alice = CrewMember(
         member_id = "CREW03",
         name = "Alice Johnson",
@@ -99,7 +100,7 @@ def main() -> None:
         crew = [cmd_sarah, lt_john, off_alice],
         budget_millions = 2500.0
     )
-    
+
     print("Valid mission created:")
     print(f"Mission: {mission_valid.mission_name}")
     print(f"ID: {mission_valid.mission_id}")
@@ -109,32 +110,34 @@ def main() -> None:
     print(f"Crew size: {len(mission_valid.crew)}")
     print("Crew members:")
     for member in mission_valid.crew:
-        print(f"- {member.name} ({member.rank.value}) - {member.specialization}")
-
+        print(f"- {member.name} \
+              ({member.rank.value}) - \
+                {member.specialization}")
 
     print("=========================================")
 
     # Creating an invalid data...
     try:
         cadet_tom = CrewMember(
-            member_id="CREW04",
-            name="Tom Spacey",
-            rank=CrewRank.cadet,
-            age=20,
-            specialization="Systems",
-            years_experience=1,
-            is_active=True
+            member_id = "CREW04",
+            name = "Tom Spacey",
+            rank = CrewRank.cadet,
+            age = 20,
+            specialization = "Systems",
+            years_experience = 1,
+            is_active = True
         )
 
         mission_invalid = SpaceMission(
-            mission_id="M2026_TEST",
-            mission_name="Lunar Scouting",
-            destination="Moon",
-            launch_date=datetime(2026, 8, 1),
-            duration_days=30,
-            crew=[cadet_tom],
-            budget_millions=150.0
+            mission_id = "M2026_TEST",
+            mission_name = "Lunar Scouting",
+            destination = "Moon",
+            launch_date = datetime(2026, 8, 1),
+            duration_days = 30,
+            crew = [cadet_tom],
+            budget_millions = 150.0
         )
+        print(f"ID: {mission_invalid.mission_id}")
     except ValidationError as e:
         print("Expected validation error:")
         print(e.errors()[0]['msg'])
