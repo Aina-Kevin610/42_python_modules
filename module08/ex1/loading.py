@@ -4,6 +4,18 @@ import importlib
 import sys
 
 
+def check_dependencies(pkg: dict[str, str]) -> bool:
+    module = ""
+    try:
+        for module, message in pkg.items():
+            mod = importlib.import_module(module)
+            print(f"[OK] {module} ({mod.__version__}) - {message}")
+        return False
+    except ModuleNotFoundError:
+        print(f"[KO] ({module}) - import error")
+        return True
+
+
 if __name__ == "__main__":
     print("\nLOADING STATUS: Loading programs...\n")
     print("Checking dependencies:")
@@ -14,12 +26,10 @@ if __name__ == "__main__":
         "numpy": "Numerical computation ready",
     }
     missing = False
-    module = ""
     try:
-        for module, message in pkg.items():
-            mod = importlib.import_module(module)
-            print(f"[OK] {module} ({mod.__version__}) - {message}")
-
+        missing = check_dependencies(pkg)
+        if missing:
+            raise ValueError()
         print("\nAnalyzing Matrix data...")
         np = importlib.import_module("numpy")
         matrix = np.random.randn(1000, 2)
@@ -35,11 +45,8 @@ if __name__ == "__main__":
 
         print("\nAnalysis complete!")
         print("Results saved to: matrix_analysis.png")
-    except ModuleNotFoundError:
-        print(f"[KO] ({module}) - import error")
-        missing = True
     except Exception:
-        print("Error")
+        pass
 
     if missing:
         print("\n[ERROR] Missing dependencies detected.")
