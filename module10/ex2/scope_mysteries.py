@@ -1,40 +1,45 @@
-#/usr/bin/env python3
+#!/usr/bin/env python3
 
-from typing import Generator
+from typing import Any
 from collections.abc import Callable
 
 
-def mage_counter() -> Callable:
+def mage_counter() -> Callable[[], int]:
     a = 0
+
     def count() -> int:
         nonlocal a
         a += 1
         return a
+
     return count
 
 
-def spell_accumulator(initial_power: int) -> Callable:
+def spell_accumulator(initial_power: int) -> Callable[[int], int]:
     total = initial_power
+
     def act(add: int) -> int:
         nonlocal total
         total += add
         return total
+
     return act
 
 
-def enchantment_factory(enchantment_type: str) -> Callable:
+def enchantment_factory(enchantment_type: str) -> Callable[[str], str]:
     def act(item_name: str) -> str:
         return f"{enchantment_type} {item_name}"
+
     return act
 
 
-def memory_vault() -> dict[str, Callable]:
-    storage: dict = {}
+def memory_vault() -> dict[str, Callable[..., Any]]:
+    storage: dict[str, Any] = {}
 
-    def store(key: str, value) -> None:
+    def store(key: str, value: Any) -> None:
         storage[key] = value
 
-    def recall(key: str):
+    def recall(key: str) -> Any:
         return storage.get(key, "Memory not found")
 
     return {"store": store, "recall": recall}

@@ -1,21 +1,22 @@
 #!/usr/bin/env python3
 
 import functools
-import operator
+
 from typing import Any
 from collections.abc import Callable
+
 
 def spell_dispatcher() -> Callable[[Any], str]:
     @functools.singledispatch
     def base(param: Any) -> str:
         raise NotImplementedError("Unknown spell type")
-    
+
     @base.register
     def _(param: int) -> str:
         return f"Damage spell: {param} damage"
 
     @base.register
-    def _(param: list) -> str:
+    def _(param: list[Any]) -> str:
         return f"Multi-cast: {len(param)} spells"
 
     @base.register
@@ -23,7 +24,6 @@ def spell_dispatcher() -> Callable[[Any], str]:
         return f"Enchantment: {param}"
 
     return base
-
 
 
 if __name__ == "__main__":
@@ -39,4 +39,3 @@ if __name__ == "__main__":
         print(disp(12.4))
     except Exception as e:
         print(e)
-    

@@ -29,19 +29,21 @@ def mage_stats(mages: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 if __name__ == "__main__":
-    artifacts = [{'name': 'Lightning Rod', 'power': 80, 'type': 'relic'},
-                 {'name': 'Shadow Blade', 'power': 73, 'type': 'weapon'},
-                 {'name': 'Crystal Orb', 'power': 84, 'type': 'accessory'},
-                 {'name': 'Ice Wand', 'power': 62, 'type': 'focus'}
-                 ]
-    
-    mages = [{'name': 'Sage', 'power': 62, 'element': 'light'},
-             {'name': 'River', 'power': 56, 'element': 'shadow'},
-             {'name': 'Nova', 'power': 82, 'element': 'water'},
-             {'name': 'Morgan', 'power': 51, 'element': 'wind'},
-             {'name': 'Rowan', 'power': 80, 'element': 'shadow'}
-             ]
-    
+    artifacts = [
+        {'name': 'Lightning Rod', 'power': 80, 'type': 'relic'},
+        {'name': 'Shadow Blade', 'power': 73, 'type': 'weapon'},
+        {'name': 'Crystal Orb', 'power': 84, 'type': 'accessory'},
+        {'name': 'Ice Wand', 'power': 62, 'type': 'focus'},
+    ]
+
+    mages = [
+        {'name': 'Sage', 'power': 62, 'element': 'light'},
+        {'name': 'River', 'power': 56, 'element': 'shadow'},
+        {'name': 'Nova', 'power': 82, 'element': 'water'},
+        {'name': 'Morgan', 'power': 51, 'element': 'wind'},
+        {'name': 'Rowan', 'power': 80, 'element': 'shadow'},
+    ]
+
     spells = ['heal', 'flash', 'darkness', 'freeze']
 
     print("\nTesting artifact sorter...")
